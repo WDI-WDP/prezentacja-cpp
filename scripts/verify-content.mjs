@@ -19,8 +19,40 @@ function normalize(value) {
         .trim();
 }
 
+function h2Bodies(source) {
+    const headings = [...source.matchAll(/^##\s+(.+)$/gm)];
+
+    return headings.map((heading, index) => {
+        const start = heading.index + heading[0].length;
+        const end = headings[index + 1]?.index ?? source.length;
+        return source.slice(start, end).trim();
+    }).join("\n");
+}
+
+const organizationLessons = course.lessons.filter(lesson => lesson.kind === "organization");
 const contentLessons = course.lessons.filter(lesson => lesson.kind === "lesson");
 const examinations = course.lessons.filter(lesson => lesson.kind === "exam");
+
+if (organizationLessons.length !== 1 || organizationLessons[0].number !== 0) {
+    failures.push("Brakuje pojedynczej Lekcji 0 z organizacją zajęć.");
+}
+else {
+    const organization = organizationLessons[0];
+    const source = readFileSync(join(sourceDirectory, organization.sourceFile), "utf8").replace(/\r\n/g, "\n");
+    const generated = organization.sections.map(section => section.markdown).join("\n");
+
+    if (normalize(h2Bodies(source)) !== normalize(generated)) {
+        failures.push(`Niezgodna treść organizacji zajęć: ${organization.sourceFile}`);
+    }
+
+    if (organization.sections.length !== 14) {
+        failures.push(`Nieprawidłowa liczba elementów Lekcji 0: ${organization.sections.length}.`);
+    }
+}
+
+if (course.lessons.length !== 31) {
+    failures.push(`Nieprawidłowa liczba pozycji w prezentacji: ${course.lessons.length}.`);
+}
 
 for (const lesson of contentLessons) {
     const source = readFileSync(join(sourceDirectory, lesson.sourceFile), "utf8").replace(/\r\n/g, "\n");
@@ -71,7 +103,7 @@ for (const examination of examinations) {
     }
 }
 
-if (JSON.stringify(course.lessons).includes("Kartkówka")) {
+if (JSON.stringify([...contentLessons, ...examinations]).includes("Kartkówka")) {
     failures.push("W danych znalazła się kartkówka.");
 }
 
@@ -83,7 +115,9 @@ if (course.meta.email !== "jakub.gratkiewicz@wat.edu.pl") {
     failures.push("Niezgodny adres e-mail.");
 }
 
-console.log(`Spotkania: ${course.lessons.length}`);
+console.log(`Pozycje w prezentacji: ${course.lessons.length}`);
+console.log(`Lekcje organizacyjne: ${organizationLessons.length}`);
+console.log(`Elementy Lekcji 0: ${organizationLessons[0]?.sections.length ?? 0}`);
 console.log(`Lekcje dydaktyczne: ${contentLessons.length}`);
 console.log(`Slajdy sprawdzianowe: ${examinations.length}`);
 console.log(`Elementy lekcji: ${course.meta.sectionCount}`);

@@ -254,6 +254,7 @@
                 const ordered = Boolean(orderedMatch);
                 const items = [];
                 const pattern = ordered ? /^\s*\d+\.\s+(.+)$/ : /^\s*[-*]\s+(.+)$/;
+                const firstNumber = ordered ? Number(line.match(/^\s*(\d+)\./)?.[1]) : 1;
 
                 while (index < lines.length) {
                     const itemMatch = lines[index].match(pattern);
@@ -267,7 +268,8 @@
                 }
 
                 const tag = ordered ? "ol" : "ul";
-                html.push(`<${tag}>${items.map(item => `<li>${inlineMarkdown(item)}</li>`).join("")}</${tag}>`);
+                const startAttribute = ordered && firstNumber !== 1 ? ` start="${firstNumber}"` : "";
+                html.push(`<${tag}${startAttribute}>${items.map(item => `<li>${inlineMarkdown(item)}</li>`).join("")}</${tag}>`);
                 continue;
             }
 
@@ -385,6 +387,8 @@
             ? "Zadania na lekcji"
             : section.kind === "homework"
                 ? "Praca samodzielna"
+                : section.kind === "organization"
+                    ? "Organizacja zajęć"
                 : `Lekcja ${lesson.number}`;
         const context = section.context
             ? `<p class="slide-context">Do tematu: ${inlineMarkdown(section.context)}</p>`
@@ -420,7 +424,9 @@
 
         if (vertical === 0) {
             return {
-                className: "slide lesson-overview",
+                className: lesson.kind === "organization"
+                    ? "slide lesson-overview organization-overview"
+                    : "slide lesson-overview",
                 html: lessonOverviewMarkup(lesson)
             };
         }
@@ -430,6 +436,8 @@
             ? " task-slide"
             : section.kind === "homework"
                 ? " homework-slide"
+                : section.kind === "organization"
+                    ? " organization-slide"
                 : "";
 
         return {
@@ -519,6 +527,9 @@
             }
             else if (section?.kind === "homework") {
                 button.classList.add("homework-dot");
+            }
+            else if (section?.kind === "organization") {
+                button.classList.add("organization-dot");
             }
 
             button.addEventListener("click", () => navigate(state.horizontal, vertical, vertical > state.vertical ? "enter-down" : "enter-up"));
@@ -632,7 +643,11 @@
         course.lessons.forEach((lesson, index) => {
             const button = document.createElement("button");
             button.type = "button";
-            button.className = lesson.kind === "exam" ? "lesson-link exam-link" : "lesson-link";
+            button.className = lesson.kind === "exam"
+                ? "lesson-link exam-link"
+                : lesson.kind === "organization"
+                    ? "lesson-link organization-link"
+                    : "lesson-link";
             button.dataset.horizontal = String(index + 1);
             button.dataset.search = `${lesson.number} ${lesson.title}`.toLocaleLowerCase("pl");
             button.innerHTML = `<span class="lesson-link-number">${String(lesson.number).padStart(2, "0")}</span>`

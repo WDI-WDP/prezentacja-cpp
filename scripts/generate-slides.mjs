@@ -90,6 +90,145 @@ function splitTheoryIntoSections(markdown) {
     return sections;
 }
 
+function cleanNumberedHeading(value) {
+    return value.replace(/^\d+\.\s+/, "").trim();
+}
+
+function splitCourseSchedule(markdown) {
+    const lines = markdown.split("\n");
+    const numberedLines = lines
+        .map((line, index) => ({ line, index, number: Number(line.match(/^(\d+)\.\s+/)?.[1]) }))
+        .filter(item => Number.isInteger(item.number));
+
+    if (numberedLines.length !== 30) {
+        throw new Error(`Oczekiwano planu 30 spotkań, znaleziono ${numberedLines.length} pozycji.`);
+    }
+
+    const firstListIndex = numberedLines[0].index;
+    const lastListIndex = numberedLines.at(-1).index;
+    const prefix = lines.slice(0, firstListIndex).join("\n").trim();
+    const suffix = lines.slice(lastListIndex + 1).join("\n").trim();
+    const sections = [];
+
+    for (let start = 0; start < numberedLines.length; start += 6) {
+        const group = numberedLines.slice(start, start + 6);
+        const parts = [];
+
+        if (start === 0 && prefix) {
+            parts.push(prefix);
+        }
+
+        parts.push(group.map(item => item.line).join("\n"));
+
+        if (start + 6 >= numberedLines.length && suffix) {
+            parts.push(suffix);
+        }
+
+        sections.push({
+            title: `Plan kursu: spotkania ${group[0].number}–${group.at(-1).number}`,
+            markdown: parts.join("\n\n")
+        });
+    }
+
+    return sections;
+}
+
+function splitPreparation(markdown) {
+    const boldHeadings = [...markdown.matchAll(/^\*\*(.+)\*\*\s*$/gm)];
+
+    if (boldHeadings.length === 0) {
+        return [{ title: "Przygotowanie do każdej lekcji", markdown }];
+    }
+
+    return boldHeadings.map((heading, index) => {
+        const start = index === 0 ? 0 : heading.index;
+        const end = boldHeadings[index + 1]?.index ?? markdown.length;
+        const subsection = heading[1].trim();
+
+        return {
+            title: subsection === "Konsekwencja nieprzygotowania"
+                ? subsection
+                : `Przygotowanie: ${subsection.toLocaleLowerCase("pl")}`,
+            markdown: markdown.slice(start, end).trim()
+        };
+    });
+}
+
+function splitQuizAndIndependence(markdown) {
+    const independenceStart = markdown.indexOf("Każde rozwiązanie może zostać zweryfikowane ustnie.");
+
+    if (independenceStart < 0) {
+        return [{ title: "Kartkówki, aktywność i samodzielność", markdown }];
+    }
+
+    return [
+        {
+            title: "Kartkówki i aktywność",
+            markdown: markdown.slice(0, independenceStart).trim()
+        },
+        {
+            title: "Weryfikacja samodzielności",
+            markdown: markdown.slice(independenceStart).trim()
+        }
+    ];
+}
+
+function readOrganization(fileName) {
+    const match = fileName.match(/^(\d{2})_.*\.md$/);
+
+    if (!match || Number(match[1]) !== 0) {
+        return null;
+    }
+
+    const source = readFileSync(join(sourceDirectory, fileName), "utf8").replace(/\r\n/g, "\n");
+    const title = source.match(/^#\s+(.+)$/m)?.[1]?.trim();
+    const headings = [...source.matchAll(/^##\s+(.+)$/gm)];
+
+    if (!title || headings.length === 0) {
+        throw new Error(`Nie rozpoznano struktury organizacji zajęć w pliku ${fileName}.`);
+    }
+
+    const sectionDrafts = [];
+
+    headings.forEach((heading, index) => {
+        const markdownStart = heading.index + heading[0].length;
+        const markdownEnd = headings[index + 1]?.index ?? source.length;
+        const markdown = source.slice(markdownStart, markdownEnd).trim();
+        const numberedTitle = heading[1].trim();
+
+        if (/^2\.\s+/.test(numberedTitle)) {
+            sectionDrafts.push(...splitCourseSchedule(markdown));
+        }
+        else if (/^3\.\s+/.test(numberedTitle)) {
+            sectionDrafts.push(...splitPreparation(markdown));
+        }
+        else if (/^4\.\s+/.test(numberedTitle)) {
+            sectionDrafts.push(...splitQuizAndIndependence(markdown));
+        }
+        else {
+            sectionDrafts.push({ title: cleanNumberedHeading(numberedTitle), markdown });
+        }
+    });
+
+    const sections = sectionDrafts.map((section, index) => ({
+        id: `${String(index + 1).padStart(2, "0")}-${slugify(section.title) || "sekcja"}`,
+        title: section.title,
+        context: "",
+        kind: "organization",
+        markdown: section.markdown
+    }));
+
+    return {
+        number: 0,
+        id: "lekcja-00",
+        kind: "organization",
+        title,
+        sourceFile: fileName,
+        checksum: createHash("sha256").update(source).digest("hex").slice(0, 12),
+        sections
+    };
+}
+
 function readLesson(fileName) {
     const match = fileName.match(/^(\d{2})_.*\.md$/);
 
@@ -186,6 +325,10 @@ const contentLessons = sourceFiles
     .filter(Boolean)
     .sort((first, second) => first.number - second.number);
 
+const organizationLessons = sourceFiles
+    .map(readOrganization)
+    .filter(Boolean);
+
 const examinations = sourceFiles
     .map(readExamination)
     .filter(Boolean)
@@ -203,12 +346,12 @@ for (const examination of examinations) {
     }
 }
 
-const lessons = [...contentLessons, ...examinations]
+const lessons = [...organizationLessons, ...contentLessons, ...examinations]
     .sort((first, second) => first.number - second.number);
 
-if (contentLessons.length !== 25 || examinations.length !== 5 || lessons.length !== 30) {
+if (organizationLessons.length !== 1 || contentLessons.length !== 25 || examinations.length !== 5 || lessons.length !== 31) {
     throw new Error(
-        `Oczekiwano 25 lekcji i 5 sprawdzianów, znaleziono ${contentLessons.length} lekcji oraz ${examinations.length} sprawdzianów.`
+        `Oczekiwano Lekcji 0, 25 lekcji i 5 sprawdzianów, znaleziono ${organizationLessons.length} lekcji organizacyjnych, ${contentLessons.length} lekcji oraz ${examinations.length} sprawdzianów.`
     );
 }
 
@@ -219,6 +362,8 @@ const course = {
         standard: "C++17",
         teacher: "por. Jakub GRĄTKIEWICZ",
         email: "jakub.gratkiewicz@wat.edu.pl",
+        organizationCount: organizationLessons.length,
+        organizationSectionCount: organizationLessons[0].sections.length,
         lessonCount: contentLessons.length,
         examCount: examinations.length,
         meetingCount: lessons.length,
@@ -234,5 +379,5 @@ writeFileSync(
 );
 
 console.log(
-    `Wygenerowano ${course.meta.lessonCount} lekcji, ${course.meta.examCount} slajdów sprawdzianowych i ${course.meta.sectionCount} slajdów treści w ${outputPath}.`
+    `Wygenerowano Lekcję 0 (${organizationLessons[0].sections.length} elementów), ${course.meta.lessonCount} lekcji, ${course.meta.examCount} slajdów sprawdzianowych i ${course.meta.sectionCount} slajdów treści w ${outputPath}.`
 );

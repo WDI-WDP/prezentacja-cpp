@@ -28,7 +28,7 @@ Po zakończeniu wdrożenia strona będzie dostępna pod adresem podanym w sekcji
 
 ## Aktualizacja treści z kursu
 
-Plik `slides-data.js` jest generowany z arkuszy kursu. Generator pomija kartkówki i treść zadań sprawdzianowych, zachowując treść dydaktyczną, zadania wykonywane podczas lekcji oraz zadania do samodzielnego wykonania. W miejscach sprawdzianów tworzy po jednym slajdzie informacyjnym z czasem, punktacją i zakresem materiału.
+Plik `slides-data.js` jest generowany z arkuszy kursu. Prezentację rozpoczyna Lekcja 0 zawierająca organizację i zasady zajęć. Generator pomija treść kartkówek i zadań sprawdzianowych, zachowując treść dydaktyczną, zadania wykonywane podczas lekcji oraz zadania do samodzielnego wykonania. W miejscach sprawdzianów tworzy po jednym slajdzie informacyjnym z czasem, punktacją i zakresem materiału.
 
 Przy obecnym układzie katalogów uruchom:
 

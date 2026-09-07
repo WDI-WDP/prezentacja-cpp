@@ -5,12 +5,122 @@ window.CPP_COURSE = {
     "standard": "C++17",
     "teacher": "por. Jakub GRĄTKIEWICZ",
     "email": "jakub.gratkiewicz@wat.edu.pl",
+    "organizationCount": 1,
+    "organizationSectionCount": 14,
     "lessonCount": 25,
     "examCount": 5,
-    "meetingCount": 30,
+    "meetingCount": 31,
     "sectionCount": 367
   },
   "lessons": [
+    {
+      "number": 0,
+      "id": "lekcja-00",
+      "kind": "organization",
+      "title": "Organizacja i zasady zajęć",
+      "sourceFile": "00_organizacja_i_zasady_zajec.md",
+      "checksum": "872bcfe1a372",
+      "sections": [
+        {
+          "id": "01-organizacja-i-przebieg-zajec",
+          "title": "Organizacja i przebieg zajęć",
+          "context": "",
+          "kind": "organization",
+          "markdown": "Zajęcia odbywają się raz w tygodniu. Każde spotkanie trwa 45 minut.\n\nKażda lekcja składa się z trzech części:\n\n1. **Kartkówka** – sprawdza przygotowanie do bieżącej lekcji oraz znajomość wcześniejszego materiału.\n2. **Treść dydaktyczna** – obejmuje omówienie nowych zagadnień, analizę przykładów oraz krótkie zadania wykonywane podczas lekcji.\n3. **Zadania do samodzielnego wykonania** – utrwalają materiał. Mogą zostać rozpoczęte na lekcji, ale muszą być ukończone przed następnym spotkaniem.\n\nUczeń bierze aktywny udział w analizie przykładów, wykonuje polecenia na bieżąco, sporządza własne notatki i zgłasza niezrozumiałe zagadnienia."
+        },
+        {
+          "id": "02-plan-kursu-spotkania-1-6",
+          "title": "Plan kursu: spotkania 1–6",
+          "context": "",
+          "kind": "organization",
+          "markdown": "Tematy kolejnych spotkań:\n\n1. Pierwszy program, zmienne oraz wejście i wyjście.\n2. Operatory arytmetyczne, przypisanie, konwersje, inkrementacja i dekrementacja.\n3. Instrukcje warunkowe i operatory logiczne.\n4. Pętle `for`, `while` i `do...while`.\n5. Instrukcja wyboru `switch`.\n6. Sprawdzian I – materiał ze spotkań 1–5."
+        },
+        {
+          "id": "03-plan-kursu-spotkania-7-12",
+          "title": "Plan kursu: spotkania 7–12",
+          "context": "",
+          "kind": "organization",
+          "markdown": "7. Zasięg zmiennych, modyfikatory typów i stałe.\n8. Własne funkcje.\n9. Rekurencja.\n10. Statyczne tablice jednowymiarowe.\n11. Algorytmy na tablicach jednowymiarowych.\n12. Sprawdzian II – materiał ze spotkań 1–11, ze szczególnym uwzględnieniem spotkań 7–11."
+        },
+        {
+          "id": "04-plan-kursu-spotkania-13-18",
+          "title": "Plan kursu: spotkania 13–18",
+          "context": "",
+          "kind": "organization",
+          "markdown": "13. Napisy `string` i tablice znaków.\n14. Statyczne tablice wielowymiarowe.\n15. Struktury.\n16. Unie, typy wyliczeniowe i aliasy typów.\n17. Wprowadzenie do wskaźników.\n18. Sprawdzian III – materiał ze spotkań 1–17, ze szczególnym uwzględnieniem spotkań 13–17."
+        },
+        {
+          "id": "05-plan-kursu-spotkania-19-24",
+          "title": "Plan kursu: spotkania 19–24",
+          "context": "",
+          "kind": "organization",
+          "markdown": "19. Wskaźniki i tablice.\n20. Przekazywanie argumentów przez wartość, wskaźnik i referencję.\n21. Dynamiczna alokacja pojedynczych obiektów.\n22. Dynamiczne tablice jednowymiarowe.\n23. Dynamiczne tablice wielowymiarowe.\n24. Sprawdzian IV – materiał ze spotkań 1–23, ze szczególnym uwzględnieniem spotkań 19–23."
+        },
+        {
+          "id": "06-plan-kursu-spotkania-25-30",
+          "title": "Plan kursu: spotkania 25–30",
+          "context": "",
+          "kind": "organization",
+          "markdown": "25. Pliki i strumienie – zapis tekstowy i binarny.\n26. Łączenie struktur, funkcji i pamięci dynamicznej.\n27. Lista jednokierunkowa.\n28. Dynamiczny stos i kolejka.\n29. Podstawy programowania obiektowego.\n30. Sprawdzian V – materiał ze spotkań 1–29, ze szczególnym uwzględnieniem spotkań 25–29.\n\nMateriał jest kumulatywny. Zagadnienia z wcześniejszych spotkań mogą pojawić się na każdej kolejnej lekcji, kartkówce i sprawdzianie."
+        },
+        {
+          "id": "07-przygotowanie-wiedza",
+          "title": "Przygotowanie: wiedza",
+          "context": "",
+          "kind": "organization",
+          "markdown": "Uczeń jest gotowy do pracy od początku zajęć. Przygotowanie obejmuje wiedzę, wyposażenie oraz komplet wykonanych zadań.\n\n**Wiedza**\n\nPrzed lekcją uczeń:\n\n- zna temat bieżącego spotkania;\n- zapoznaje się z odpowiednim arkuszem;\n- przypomina sobie wcześniejsze zagadnienia."
+        },
+        {
+          "id": "08-przygotowanie-sprzet-i-przybory",
+          "title": "Przygotowanie: sprzęt i przybory",
+          "context": "",
+          "kind": "organization",
+          "markdown": "**Sprzęt i przybory**\n\nUczeń przynosi:\n\n- sprawny i naładowany komputer osobisty;\n- zasilacz;\n- akcesoria potrzebne do korzystania z komputera, na przykład mysz, klawiaturę, monitor, przejściówki i przewody;\n- zeszyt do własnych notatek i obliczeń;\n- co najmniej pięć czystych kartek albo kartkownik z łatwo wyrywanymi kartkami w formacie A4 lub A5;\n- sprawny długopis.\n\nKomputer musi umożliwiać szybkie uruchomienie środowiska programistycznego."
+        },
+        {
+          "id": "09-przygotowanie-konto-github-oraz-zadania",
+          "title": "Przygotowanie: konto github oraz zadania",
+          "context": "",
+          "kind": "organization",
+          "markdown": "**Konto GitHub oraz zadania**\n\nUczeń:\n\n- posiada własne konto na platformie GitHub;\n- ma dane logowania i urządzenia potrzebne do zalogowania, w tym do potwierdzenia logowania dwuetapowego;\n- przed lekcją sprawdza, czy może zalogować się na swoje konto;\n- wykonuje wszystkie zadania wymagane do bieżącego spotkania;\n- przechowuje wszystkie dotychczasowe rozwiązania na swoim komputerze w uporządkowanym miejscu;\n- udostępnia aktualne rozwiązania na platformie GitHub;\n- potrafi szybko wskazać, otworzyć, skompilować i uruchomić każde rozwiązanie."
+        },
+        {
+          "id": "10-konsekwencja-nieprzygotowania",
+          "title": "Konsekwencja nieprzygotowania",
+          "context": "",
+          "kind": "organization",
+          "markdown": "**Konsekwencja nieprzygotowania**\n\nNiespełnienie któregokolwiek z powyższych warunków jest traktowane jako nieprzygotowanie do lekcji i skutkuje oceną niedostateczną za przygotowanie."
+        },
+        {
+          "id": "11-kartkowki-i-aktywnosc",
+          "title": "Kartkówki i aktywność",
+          "context": "",
+          "kind": "organization",
+          "markdown": "Przed każdą lekcją odbywa się krótka kartkówka. Za każdy z trzech sprawdzanych elementów uczeń otrzymuje plus albo minus, dlatego z jednej kartkówki może uzyskać maksymalnie trzy plusy.\n\nWyniki dwóch kolejnych kartkówek łączą się w jedną ocenę z pracy na lekcji lub aktywności. Ocena odpowiada liczbie plusów zebranych podczas tych kartkówek:\n\n| Liczba plusów z dwóch kartkówek | Ocena |\n|---:|---:|\n| 6 | 6 |\n| 5 | 5 |\n| 4 | 4 |\n| 3 | 3 |\n| 2 | 2 |\n| 1 | 1 |\n| 0 | 1 |\n\nPo wystawieniu oceny rozpoczyna się zbieranie znaków do następnej pary kartkówek."
+        },
+        {
+          "id": "12-weryfikacja-samodzielnosci",
+          "title": "Weryfikacja samodzielności",
+          "context": "",
+          "kind": "organization",
+          "markdown": "Każde rozwiązanie może zostać zweryfikowane ustnie. Uczeń może zostać poproszony o:\n\n- wyjaśnienie działania programu;\n- opisanie roli wybranej zmiennej, warunku, operatora, funkcji lub pętli;\n- przewidzenie wyniku dla podanych danych;\n- wskazanie fragmentu odpowiedzialnego za wybrane działanie;\n- wprowadzenie niewielkiej zmiany;\n- uruchomienie programu z innymi danymi.\n\nNieumiejętność wyjaśnienia przedstawionego rozwiązania jest traktowana tak samo jak brak rozwiązania."
+        },
+        {
+          "id": "13-nieobecnosc",
+          "title": "Nieobecność",
+          "context": "",
+          "kind": "organization",
+          "markdown": "Uczeń nieobecny na zajęciach przed rozpoczęciem następnej lekcji samodzielnie zapoznaje się z opuszczonym materiałem, uzupełnia notatki i wykonuje wszystkie zadania. Do uzupełnianych materiałów stosuje wszystkie zasady przygotowania opisane w punkcie 3.\n\nNieobecność nie zwalnia z przygotowania do kolejnego spotkania ani z kartkówki obejmującej wcześniejszy materiał."
+        },
+        {
+          "id": "14-sprawdziany",
+          "title": "Sprawdziany",
+          "context": "",
+          "kind": "organization",
+          "markdown": "Po każdym bloku pięciu lekcji merytorycznych odbywa się sprawdzian trwający 45 minut.\n\nSprawdzian obejmuje cały materiał zrealizowany od początku kursu, ze szczególnym uwzględnieniem pięciu poprzedzających go lekcji. Uczeń powinien potrafić:\n\n- wyjaśniać poznane pojęcia;\n- analizować kod i przewidywać jego wynik;\n- odnajdywać i poprawiać błędy;\n- samodzielnie pisać krótkie programy;\n- łączyć zagadnienia z kilku lekcji w jednym rozwiązaniu."
+        }
+      ]
+    },
     {
       "number": 1,
       "id": "lekcja-01",
