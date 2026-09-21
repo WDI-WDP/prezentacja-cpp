@@ -19,7 +19,7 @@ window.CPP_COURSE = {
       "kind": "organization",
       "title": "Organizacja i zasady zajęć",
       "sourceFile": "00_organizacja_i_zasady_zajec.md",
-      "checksum": "872bcfe1a372",
+      "checksum": "113795274939",
       "sections": [
         {
           "id": "01-organizacja-i-przebieg-zajec",
@@ -96,7 +96,7 @@ window.CPP_COURSE = {
           "title": "Kartkówki i aktywność",
           "context": "",
           "kind": "organization",
-          "markdown": "Przed każdą lekcją odbywa się krótka kartkówka. Za każdy z trzech sprawdzanych elementów uczeń otrzymuje plus albo minus, dlatego z jednej kartkówki może uzyskać maksymalnie trzy plusy.\n\nWyniki dwóch kolejnych kartkówek łączą się w jedną ocenę z pracy na lekcji lub aktywności. Ocena odpowiada liczbie plusów zebranych podczas tych kartkówek:\n\n| Liczba plusów z dwóch kartkówek | Ocena |\n|---:|---:|\n| 6 | 6 |\n| 5 | 5 |\n| 4 | 4 |\n| 3 | 3 |\n| 2 | 2 |\n| 1 | 1 |\n| 0 | 1 |\n\nPo wystawieniu oceny rozpoczyna się zbieranie znaków do następnej pary kartkówek."
+          "markdown": "Przed każdą lekcją odbywa się krótka kartkówka. Za każdy z trzech sprawdzanych elementów uczeń otrzymuje plus (1 pkt) za poprawną, kompletną odpowiedź albo minus (0 pkt) w pozostałych przypadkach. Z jednej kartkówki można uzyskać maksymalnie 3 pkt.\n\nSumujemy punkty z czterech kolejnych kartkówek i wystawiamy jedną ocenę z pracy na lekcji lub aktywności. Maksymalny wynik to 12 pkt. Obowiązuje następująca skala:\n\n| Suma punktów z czterech kartkówek | Ocena |\n|---:|---:|\n| 0–4 | 1 |\n| 5–6 | 2 |\n| 7–8 | 3 |\n| 9–10 | 4 |\n| 11 | 5 |\n| 12 | 6 |\n\nPo wystawieniu oceny rozpoczynamy zbieranie punktów z kolejnego zestawu czterech kartkówek."
         },
         {
           "id": "12-weryfikacja-samodzielnosci",
