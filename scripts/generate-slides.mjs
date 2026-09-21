@@ -7,6 +7,7 @@ const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryDirectory = resolve(scriptDirectory, "..");
 const sourceDirectory = resolve(process.argv[2] ?? join(repositoryDirectory, ".."));
 const outputPath = join(repositoryDirectory, "slides-data.js");
+const setupFile = "content/konfiguracja-srodowiska.md";
 
 const examinationNumbers = new Set([6, 12, 18, 24, 30]);
 
@@ -229,6 +230,35 @@ function readOrganization(fileName) {
     };
 }
 
+function readSetup() {
+    const source = readFileSync(join(repositoryDirectory, setupFile), "utf8").replace(/\r\n/g, "\n");
+    const title = source.match(/^#\s+(.+)$/m)?.[1]?.trim();
+    const headings = [...source.matchAll(/^##\s+(.+)$/gm)];
+
+    if (!title || headings.length === 0) {
+        throw new Error(`Nie rozpoznano struktury konfiguracji środowiska w ${setupFile}.`);
+    }
+
+    const sections = headings.map((heading, index) => ({
+        id: `${String(index + 1).padStart(2, "0")}-${slugify(heading[1])}`,
+        title: heading[1].trim(),
+        context: "",
+        kind: "setup",
+        markdown: source.slice(heading.index + heading[0].length, headings[index + 1]?.index ?? source.length).trim()
+    }));
+
+    return {
+        number: null,
+        id: "konfiguracja-srodowiska",
+        route: "konfiguracja",
+        kind: "setup",
+        title,
+        sourceFile: setupFile,
+        checksum: createHash("sha256").update(source).digest("hex").slice(0, 12),
+        sections
+    };
+}
+
 function readLesson(fileName) {
     const match = fileName.match(/^(\d{2})_.*\.md$/);
 
@@ -346,12 +376,14 @@ for (const examination of examinations) {
     }
 }
 
-const lessons = [...organizationLessons, ...contentLessons, ...examinations]
+const setupLesson = readSetup();
+const numberedLessons = [...contentLessons, ...examinations]
     .sort((first, second) => first.number - second.number);
+const lessons = [...organizationLessons, setupLesson, ...numberedLessons];
 
-if (organizationLessons.length !== 1 || contentLessons.length !== 25 || examinations.length !== 5 || lessons.length !== 31) {
+if (organizationLessons.length !== 1 || contentLessons.length !== 25 || examinations.length !== 5 || lessons.length !== 32) {
     throw new Error(
-        `Oczekiwano Lekcji 0, 25 lekcji i 5 sprawdzianów, znaleziono ${organizationLessons.length} lekcji organizacyjnych, ${contentLessons.length} lekcji oraz ${examinations.length} sprawdzianów.`
+        `Oczekiwano Lekcji 0, konfiguracji środowiska, 25 lekcji i 5 sprawdzianów, znaleziono ${organizationLessons.length} lekcji organizacyjnych, ${contentLessons.length} lekcji oraz ${examinations.length} sprawdzianów.`
     );
 }
 
@@ -364,6 +396,8 @@ const course = {
         email: "jakub.gratkiewicz@wat.edu.pl",
         organizationCount: organizationLessons.length,
         organizationSectionCount: organizationLessons[0].sections.length,
+        setupCount: 1,
+        setupSectionCount: setupLesson.sections.length,
         lessonCount: contentLessons.length,
         examCount: examinations.length,
         meetingCount: lessons.length,
@@ -379,5 +413,5 @@ writeFileSync(
 );
 
 console.log(
-    `Wygenerowano Lekcję 0 (${organizationLessons[0].sections.length} elementów), ${course.meta.lessonCount} lekcji, ${course.meta.examCount} slajdów sprawdzianowych i ${course.meta.sectionCount} slajdów treści w ${outputPath}.`
+    `Wygenerowano Lekcję 0 (${organizationLessons[0].sections.length} elementów), konfigurację środowiska (${setupLesson.sections.length} elementów), ${course.meta.lessonCount} lekcji, ${course.meta.examCount} slajdów sprawdzianowych i ${course.meta.sectionCount} slajdów treści kursu w ${outputPath}.`
 );

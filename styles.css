@@ -973,6 +973,10 @@ pre {
     background: rgba(255, 255, 255, 0.045);
 }
 
+.lesson-link[hidden] {
+    display: none;
+}
+
 .lesson-link.active {
     border-color: rgba(94, 234, 212, 0.3);
     background: var(--accent-soft);

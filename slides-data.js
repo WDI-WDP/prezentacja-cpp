@@ -7,9 +7,11 @@ window.CPP_COURSE = {
     "email": "jakub.gratkiewicz@wat.edu.pl",
     "organizationCount": 1,
     "organizationSectionCount": 14,
+    "setupCount": 1,
+    "setupSectionCount": 17,
     "lessonCount": 25,
     "examCount": 5,
-    "meetingCount": 31,
+    "meetingCount": 32,
     "sectionCount": 367
   },
   "lessons": [
@@ -118,6 +120,136 @@ window.CPP_COURSE = {
           "context": "",
           "kind": "organization",
           "markdown": "Po każdym bloku pięciu lekcji merytorycznych odbywa się sprawdzian trwający 45 minut.\n\nSprawdzian obejmuje cały materiał zrealizowany od początku kursu, ze szczególnym uwzględnieniem pięciu poprzedzających go lekcji. Uczeń powinien potrafić:\n\n- wyjaśniać poznane pojęcia;\n- analizować kod i przewidywać jego wynik;\n- odnajdywać i poprawiać błędy;\n- samodzielnie pisać krótkie programy;\n- łączyć zagadnienia z kilku lekcji w jednym rozwiązaniu."
+        }
+      ]
+    },
+    {
+      "number": null,
+      "id": "konfiguracja-srodowiska",
+      "route": "konfiguracja",
+      "kind": "setup",
+      "title": "Konfiguracja środowiska",
+      "sourceFile": "content/konfiguracja-srodowiska.md",
+      "checksum": "f3951c521854",
+      "sections": [
+        {
+          "id": "01-instalacja-przez-portal-firmy",
+          "title": "Instalacja przez Portal Firmy",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Przygotujemy Windows do pracy z repozytorium zadań. Potrzebujesz dostępu do konta szkolnego oraz własnego konta GitHub, także urządzenia do potwierdzenia logowania.\n\n1. Otwórz menu Start i uruchom aplikację **Portal Firmy**.\n2. Zaloguj się kontem szkolnym, jeśli aplikacja o to poprosi.\n3. Wyszukaj **Git** lub **Git for Windows**, wybierz aplikację i kliknij **Zainstaluj**.\n4. Tak samo zainstaluj **GitHub Desktop** — graficzną aplikację do pracy z Git.\n5. Poczekaj, aż obie instalacje zakończą się. Zamknij wcześniej otwarte terminale.\n\n**Git** to narzędzie kontroli wersji. **GitHub** to platforma przechowująca repozytoria w internecie. **GitHub Desktop** udostępnia interfejs graficzny; w tej lekcji poznajemy polecenia Git w PowerShell.\n\nJeśli aplikacji brakuje w Portalu Firmy lub instalacja wymaga uprawnień, zgłoś to prowadzącemu. Nie omijaj zabezpieczeń komputera.\n\nPomoc: [instalowanie aplikacji z Portalu Firmy](https://learn.microsoft.com/en-us/intune/user-help/apps/install-apps-windows), [GitHub Desktop](https://docs.github.com/en/desktop/overview/getting-started-with-github-desktop)."
+        },
+        {
+          "id": "02-od-konsoli-cmd-do-powershell",
+          "title": "Od konsoli cmd do PowerShell",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Naciśnij **Win + R**, wpisz `cmd` i zatwierdź Enterem. W oknie wiersza polecenia uruchom powłokę PowerShell:\n\n```cmd\npowershell\n```\n\nPoczątek wiersza polecenia powinien zawierać `PS`. Od tej chwili kolejne polecenia wykonujesz w PowerShell. Nie wpisuj samodzielnie oznaczenia `PS` ani wyświetlanej przed kursorem ścieżki.\n\nSprawdź instalację Git:\n\n```powershell\ngit\ngit --version\n```\n\n`git` wyświetla pomoc i listę podstawowych poleceń. `git --version` podaje zainstalowaną wersję. Komunikat, że `git` nie jest rozpoznawany, oznacza, że powłoka go nie znajduje. Otwórz nowe okno po instalacji; jeśli to nie pomaga, zgłoś problem prowadzącemu.\n\n`powershell` uruchamia powłokę wewnątrz bieżącego okna. Polecenie `exit` zakończy tę sesję i wróci do cmd.\n\nPomoc: [uruchamianie Windows PowerShell](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_powershell_exe?view=powershell-5.1)."
+        },
+        {
+          "id": "03-powershell-cd-zmiana-katalogu",
+          "title": "PowerShell: cd — zmiana katalogu",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Każde polecenie wykonujesz w określonym katalogu. `cd` jest skrótem polecenia `Set-Location` i zmienia bieżący katalog; nie przenosi plików.\n\n```powershell\ncd \"$env:USERPROFILE\"\ncd C:\\Users\ncd ..\n```\n\nPierwsze polecenie otwiera katalog Twojego profilu użytkownika. Drugie przechodzi do `C:\\Users`, a trzecie o poziom wyżej, czyli w tym przykładzie do `C:\\`.\n\n- `cd .\\zadania` — wejście do istniejącego podkatalogu `zadania`.\n- `cd ..` — przejście do katalogu nadrzędnego.\n- `cd \"C:\\Moje projekty\"` — ścieżkę ze spacjami ujmij w cudzysłowy; katalog musi już istnieć.\n- `pwd` — pokazanie bieżącej lokalizacji, jeśli nie wiesz, gdzie jesteś.\n\n**Zadanie:** przejdź do swojego profilu, potem o katalog wyżej. Sprawdź lokalizację poleceniem `pwd`.\n\nPomoc: [Set-Location](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/set-location?view=powershell-7.5)."
+        },
+        {
+          "id": "04-powershell-ls-lista-plikow-i-katalogow",
+          "title": "PowerShell: ls — lista plików i katalogów",
+          "context": "",
+          "kind": "setup",
+          "markdown": "`ls` to w Windows PowerShell skrót `Get-ChildItem`. Bez dodatkowej ścieżki pokazuje zawartość bieżącego katalogu.\n\n```powershell\ncd \"$env:USERPROFILE\"\nls\nls -Force\nls C:\\Users\n```\n\n`ls -Force` pokazuje również elementy ukryte. Podanie ścieżki pozwala obejrzeć inny katalog bez przechodzenia do niego. Samo `ls` niczego nie otwiera ani nie usuwa.\n\nPo sklonowaniu repozytorium przyda się również `ls *.cpp` — lista plików z rozszerzeniem `.cpp` w bieżącym katalogu. Gwiazdka zastępuje dowolny fragment nazwy.\n\n**Zadanie:** wyświetl zawartość swojego profilu i wskaż nazwę jednego katalogu. Wejdź do niego za pomocą `cd`, wykonaj `ls`, a następnie wróć przez `cd ..`.\n\nPomoc: [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-5.1)."
+        },
+        {
+          "id": "05-powershell-cat-odczyt-pliku-tekstowego",
+          "title": "PowerShell: cat — odczyt pliku tekstowego",
+          "context": "",
+          "kind": "setup",
+          "markdown": "`cat` jest w Windows PowerShell skrótem `Get-Content`. Wyświetla tekst zapisany w pliku; nie edytuje go i nie uruchamia programu.\n\nPoniższe przykłady wykonasz w katalogu zawierającym wskazane pliki. Zastąp nazwy rzeczywistymi nazwami widocznymi po `ls`.\n\n```powershell\ncat .\\README.md\ncat .\\main.cpp\ncat \".\\moje notatki.txt\"\n```\n\n`cat .\\main.cpp` pokazuje kod źródłowy. Nie zastępuje kompilacji ani uruchomienia programu C++.\n\n`ls` służy do przeglądania nazw plików i katalogów, a `cat` — zawartości konkretnego pliku tekstowego. Przy błędzie „ścieżka nie istnieje” sprawdź nazwę oraz bieżący katalog.\n\n**Zadanie:** wybierz dostępny plik tekstowy i wyświetl jego zawartość. Jeśli nie masz jeszcze takiego pliku, wróć do tego polecenia po sklonowaniu repozytorium.\n\nPomoc: [Get-Content](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-content?view=powershell-7.5)."
+        },
+        {
+          "id": "06-dane-autora-commitow",
+          "title": "Dane autora commitów",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Przed pierwszym commitem ustaw dane autora. W poniższych poleceniach wpisz własne imię, nazwisko i adres e-mail powiązany z kontem GitHub. Jeśli nie chcesz ujawniać prywatnego adresu w historii, użyj adresu `noreply` podanego w ustawieniach e-mail na GitHub.\n\n```powershell\ngit config --global user.name \"Imie Nazwisko\"\ngit config --global user.email \"twoj_email@example.com\"\n```\n\n`--global` zapisuje ustawienia dla Twojego konta użytkownika na tym komputerze. Zwykle wystarczy zrobić to raz. Te dane opisują autora zmian; nie logują do GitHub.\n\nSprawdź zapisane wartości:\n\n```powershell\ngit config --global --get user.name\ngit config --global --get user.email\n```\n\nPomoc: [przygotowanie Git do pracy](https://docs.github.com/en/get-started/git-basics/set-up-git)."
+        },
+        {
+          "id": "07-utworzenie-klucza-ssh-w-powershell",
+          "title": "Utworzenie klucza SSH w PowerShell",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Klucz SSH umożliwi uwierzytelnienie podczas pracy z GitHub. Najpierw sprawdź, czy narzędzia są dostępne i czy masz już klucze:\n\n```powershell\nGet-Command ssh, ssh-keygen\nls \"$env:USERPROFILE\\.ssh\"\n```\n\nBrak katalogu `.ssh` przy pierwszej konfiguracji jest normalny. Jeśli nie ma polecenia `ssh-keygen`, poproś prowadzącego o pomoc z klientem OpenSSH. Nie potrzebujesz serwera SSH.\n\nJeżeli nie masz klucza do wykorzystania, wygeneruj nową parę, podając własny e-mail jako opis:\n\n```powershell\nssh-keygen -t ed25519 -C \"twoj_email@example.com\"\n```\n\n1. Przy pytaniu o miejsce zapisu naciśnij Enter, aby zaakceptować domyślną ścieżkę, o ile nie nadpisujesz istniejącego klucza.\n2. Ustaw frazę zabezpieczającą klucz — `passphrase` — i wpisz ją ponownie. Znaki nie są widoczne podczas wpisywania.\n3. Jeśli program pyta o nadpisanie istniejącego pliku, odpowiedz `n` i skonsultuj się z prowadzącym. Nie niszcz wcześniej używanego klucza.\n\nPomoc: [generowanie klucza SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=windows)."
+        },
+        {
+          "id": "08-pliki-klucza-prywatny-i-publiczny",
+          "title": "Pliki klucza: prywatny i publiczny",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Po zaakceptowaniu domyślnej lokalizacji klucze znajdziesz w `.ssh` we własnym profilu, zwykle `C:\\Users\\NAZWA_UZYTKOWNIKA\\.ssh`. W PowerShell zapis `$env:USERPROFILE` oznacza ścieżkę do Twojego profilu.\n\n```powershell\nls \"$env:USERPROFILE\\.ssh\"\n```\n\n| Plik | Znaczenie | Co z nim robimy? |\n|---|---|---|\n| `id_ed25519` | Klucz prywatny | Chronimy go na swoim komputerze. Nie wysyłamy go do GitHub, repozytorium ani innych osób. |\n| `id_ed25519.pub` | Klucz publiczny | Jego zawartość dodajemy do ustawień konta GitHub. |\n\nTo dwa pliki utworzone przez `ssh-keygen`. Fraza `passphrase` zabezpiecza klucz prywatny; nie jest hasłem do konta GitHub. Może być wymagana przy kolejnych połączeniach.\n\n**Nie twórz kluczy w katalogu repozytorium. Do GitHub kopiujemy wyłącznie plik z końcówką `.pub`.**\n\nPomoc: [klucze SSH w Windows](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement)."
+        },
+        {
+          "id": "09-dodanie-klucza-publicznego-do-github",
+          "title": "Dodanie klucza publicznego do GitHub",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Wyświetl zawartość klucza publicznego i skopiuj cały wiersz, od `ssh-ed25519` do końca. Nie kopiuj polecenia ani znaku zachęty PowerShell.\n\n```powershell\ncat \"$env:USERPROFILE\\.ssh\\id_ed25519.pub\"\n```\n\nMożesz też skopiować samą zawartość do schowka:\n\n```powershell\ncat \"$env:USERPROFILE\\.ssh\\id_ed25519.pub\" | clip\n```\n\n1. Zaloguj się na własne konto GitHub. Kliknij zdjęcie profilowe, potem **Settings**.\n2. Otwórz **SSH and GPG keys** i wybierz **New SSH key**.\n3. W polu **Title** podaj opis komputera, np. `Laptop szkolny`.\n4. Jako **Key type** wybierz **Authentication Key**. W polu **Key** wklej klucz publiczny.\n5. Kliknij **Add SSH key** i potwierdź dostęp do konta, jeśli GitHub o to poprosi.\n\nPomoc: [dodawanie klucza SSH do konta](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)."
+        },
+        {
+          "id": "10-sprawdzenie-po-aczenia-ssh",
+          "title": "Sprawdzenie połączenia SSH",
+          "context": "",
+          "kind": "setup",
+          "markdown": "W PowerShell wykonaj:\n\n```powershell\nssh -T git@github.com\n```\n\nUżyj dokładnie `git@github.com` — w tym poleceniu nie zastępuj słowa `git` swoim loginem.\n\nPrzy pierwszym połączeniu program może zapytać o zaufanie do serwera. Porównaj wyświetlony odcisk klucza z [oficjalnymi odciskami GitHub](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints). Wpisz `yes` tylko wtedy, gdy się zgadzają. Przy różnicy przerwij i zgłoś problem.\n\nJeśli pojawi się prośba o `passphrase`, podaj frazę ustawioną dla klucza. Udane połączenie wyświetla powitanie z Twoim loginem i komunikat `You've successfully authenticated`. Informacja o braku dostępu do powłoki GitHub jest normalna; to nie jest zdalny pulpit ani konsola do pracy.\n\nPo zaakceptowaniu serwera może powstać plik `.ssh\\known_hosts`. Zawiera zapamiętane klucze serwerów; nie jest Twoim kluczem publicznym ani prywatnym.\n\nPomoc: [sprawdzanie połączenia SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection)."
+        },
+        {
+          "id": "11-katalog-na-repozytoria-bez-polskich-znakow",
+          "title": "Katalog na repozytoria — bez polskich znaków",
+          "context": "",
+          "kind": "setup",
+          "markdown": "**Jeśli nazwa Twojego katalogu użytkownika zawiera polskie znaki, np. `C:\\Users\\Łukasz`, klonuj repozytorium poza tym katalogiem. Wybierz ścieżkę bez polskich znaków, np. `C:\\Repo`.**\n\nTo zalecenie dla naszego środowiska C++: pozwala ograniczyć problemy części narzędzi z nazwami ścieżek. Nie oznacza, że Git w ogóle nie obsługuje polskich znaków. Sprawdź całą ścieżkę, nie tylko nazwę ostatniego folderu; wybieraj też proste nazwy bez spacji.\n\nW Eksploratorze utwórz katalog `C:\\Repo`, jeśli jeszcze go nie ma. Następnie:\n\n```powershell\ncd C:\\Repo\npwd\nls\n```\n\nJeżeli nie masz prawa tworzyć katalogów w tym miejscu, poproś prowadzącego o wskazanie innej zapisywalnej lokalizacji bez polskich znaków. Nie zmieniaj nazwy profilu Windows ani jego uprawnień.\n\nKlucze SSH pozostają w `.ssh` w profilu użytkownika. Nie przenoś ich do repozytorium razem z zadaniami."
+        },
+        {
+          "id": "12-git-clone-pierwsza-kopia-repozytorium",
+          "title": "git clone — pierwsza kopia repozytorium",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Otwórz na GitHub właściwe repozytorium zadań, do którego masz prawo zapisu. Wybierz **Code**, zakładkę **SSH** i skopiuj adres. Nie wybieraj ZIP-a ani adresu HTTPS w tym ćwiczeniu.\n\nPoniżej jest wzór: zastąp `UZYTKOWNIK/NAZWA_REPO` danymi ze skopiowanego adresu. Właścicielem może być również organizacja szkolna.\n\n```powershell\ncd C:\\Repo\ngit clone git@github.com:UZYTKOWNIK/NAZWA_REPO.git\ncd .\\NAZWA_REPO\ngit status\n```\n\n`git clone` tworzy podkatalog repozytorium i pobiera pliki wraz z historią. Poczekaj na zakończenie klonowania i powrót znaku zachęty, zanim wejdziesz do folderu albo zaczniesz kopiować do niego pliki.\n\nKlonowanie wykonujesz raz dla danej lokalnej kopii, a nie przed każdą lekcją. Aktualizacje pobierzesz później przez `git pull`. Dalsze polecenia Git wykonuj wewnątrz sklonowanego repozytorium.\n\nPomoc: [klonowanie repozytorium z GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)."
+        },
+        {
+          "id": "13-podsumowanie-polecen-git",
+          "title": "Podsumowanie poleceń Git",
+          "context": "",
+          "kind": "setup",
+          "markdown": "| Polecenie | Do czego służy? |\n|---|---|\n| `git clone ADRES` | Tworzy lokalną kopię repozytorium. W miejsce `ADRES` wstaw adres SSH z GitHub. |\n| `git status` | Pokazuje zmiany w plikach i to, które przygotowano do commita. |\n| `git add .` | Przygotowuje zmiany z bieżącego katalogu i jego podkatalogów do następnego commita. |\n| `git commit -m \"nazwa commita\"` | Zapisuje przygotowane zmiany w lokalnej historii; tekst w cudzysłowie jest opisem commita. |\n| `git push` | Wysyła lokalne commity do repozytorium zdalnego, np. na GitHub. |\n| `git pull` | Pobiera zmiany z repozytorium zdalnego i integruje je z bieżącą gałęzią. |\n\nW tym kursie pracujemy w sklonowanym repozytorium, na gałęzi śledzącej gałąź z GitHub. Dzięki temu zwykle wystarczą samo `git push` i samo `git pull`.\n\nDokumentacja: [clone](https://git-scm.com/docs/git-clone), [status](https://git-scm.com/docs/git-status), [add](https://git-scm.com/docs/git-add), [commit](https://git-scm.com/docs/git-commit), [push](https://git-scm.com/docs/git-push), [pull](https://git-scm.com/docs/git-pull)."
+        },
+        {
+          "id": "14-plik-roboczy-obszar-przygotowania-i-commit",
+          "title": "Plik roboczy, obszar przygotowania i commit",
+          "context": "",
+          "kind": "setup",
+          "markdown": "| Etap | Gdzie są zmiany? | Następna czynność |\n|---|---|---|\n| Zapisany plik | W katalogu roboczym na Twoim komputerze | Sprawdź `git status`. |\n| Po `git add .` | W obszarze przygotowania, czyli indeksie Git | Utwórz commit z przygotowanych zmian. |\n| Po `git commit` | W lokalnej historii repozytorium | Wyślij commity przez `git push`. |\n| Po udanym `git push` | Również w repozytorium na GitHub | Sprawdź je w przeglądarce. |\n\nUruchamiaj `git add .` z głównego katalogu repozytorium, jeśli chcesz uwzględnić zmiany w całym projekcie. Polecenie obejmuje nowe pliki, modyfikacje i usunięcia w tym zakresie; nie dodaje nowych plików wykluczonych przez `.gitignore`.\n\nPrzed dodaniem przejrzyj listę. Nie dodawaj haseł, kluczy prywatnych ani przypadkowych plików. Jeśli zmienisz plik ponownie po `git add .`, wykonaj `add` jeszcze raz, aby nowa wersja trafiła do commita.\n\nPomoc: [obszar przygotowania i git add](https://git-scm.com/docs/git-add), [zapis commita](https://git-scm.com/docs/git-commit)."
+        },
+        {
+          "id": "15-codzienny-przebieg-pracy",
+          "title": "Codzienny przebieg pracy",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Na początku pracy wejdź do głównego katalogu repozytorium i sprawdź stan. Gdy nie masz niezapisanych w commitach zmian, pobierz aktualizacje:\n\n```powershell\ngit status\ngit pull\n```\n\nNastępnie rozwiąż zadanie, zapisz pliki i sprawdź działanie programu. Na koniec wykonaj kolejno:\n\n```powershell\ngit status\ngit add .\ngit status\ngit commit -m \"Rozwiazanie zadania 01\"\ngit push\n```\n\nSprawdzasz zmiany, dodajesz je do obszaru przygotowania, kontrolujesz wybór, tworzysz lokalny commit i udostępniasz go na GitHub. W opisie commita napisz, co zmieniłeś; nie nazywa on nowego pliku ani gałęzi.\n\nPo `push` otwórz repozytorium w przeglądarce i sprawdź pliki oraz ostatni commit. Samo zapisanie pliku lub wykonanie `commit` nie udostępnia pracy prowadzącemu.\n\nPomoc: [sprawdzanie stanu](https://git-scm.com/docs/git-status), [wysyłanie commitów](https://git-scm.com/docs/git-push), [pobieranie zmian](https://git-scm.com/docs/git-pull)."
+        },
+        {
+          "id": "16-zadanie-pierwszy-pe-ny-cykl-pracy",
+          "title": "Zadanie: pierwszy pełny cykl pracy",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Pracuj wyłącznie we własnym repozytorium zadań lub w repozytorium wskazanym przez prowadzącego, do którego masz prawo zapisu.\n\n1. Wejdź do jego lokalnego katalogu. Wykonaj `git status`, a przy czystym stanie `git pull`.\n2. Utwórz w edytorze plik `notatki-konfiguracja.txt` i zapisz w nim dwa zdania: czym różni się `ls` od `cat` i czym różni się `commit` od `push`. Jeśli plik już istnieje, dopisz notatkę bez kasowania wcześniejszej treści.\n3. Zapisz plik. Sprawdź jego treść przez `cat .\\notatki-konfiguracja.txt`.\n4. Wykonaj `git status`, `git add .`, ponownie `git status`, a potem `git commit -m \"Notatki z konfiguracji\"` i `git push`.\n5. Znajdź plik oraz commit na GitHub i pokaż je prowadzącemu.\n\nNie wpisuj do notatki haseł, frazy zabezpieczającej ani zawartości kluczy.\n\n**Pytania:** czy commit jest już widoczny na GitHub przed `push`? Czy `git add .` zapisze w commicie zmianę dopisaną dopiero po wykonaniu tego polecenia?"
+        },
+        {
+          "id": "17-gdy-polecenie-nie-dzia-a",
+          "title": "Gdy polecenie nie działa",
+          "context": "",
+          "kind": "setup",
+          "markdown": "- **`git` nie jest rozpoznawany:** sprawdź zakończenie instalacji Git w Portalu Firmy i uruchom nowe okno PowerShell.\n- **`not a git repository`:** sprawdź lokalizację przez `pwd`; wejdź przez `cd` do właściwego sklonowanego repozytorium.\n- **`Permission denied (publickey)`:** sprawdź, czy dodałeś plik `.pub` do właściwego konta GitHub i czy powitanie po `ssh -T git@github.com` zawiera Twój login. Poproś prowadzącego o pomoc; nie wysyłaj mu klucza prywatnego.\n- **`nothing to commit`:** sprawdź, czy zapisałeś plik i przygotowałeś jego zmianę przez `git add .`.\n- **Odrzucony `push` lub konflikt przy `pull`:** nie używaj `--force` i nie usuwaj repozytorium. Zatrzymaj się, sprawdź komunikat oraz `git status` i poproś o pomoc w połączeniu zmian.\n\nPrzed następną lekcją potrafisz otworzyć PowerShell, wskazać repozytorium, wyświetlić plik oraz przejść pełny cykl od zmiany pliku do jej udostępnienia na GitHub."
         }
       ]
     },
