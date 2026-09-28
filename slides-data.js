@@ -7,11 +7,11 @@ window.CPP_COURSE = {
     "email": "jakub.gratkiewicz@wat.edu.pl",
     "organizationCount": 1,
     "organizationSectionCount": 14,
-    "setupCount": 1,
-    "setupSectionCount": 17,
+    "setupCount": 2,
+    "setupSectionCount": 42,
     "lessonCount": 25,
     "examCount": 5,
-    "meetingCount": 32,
+    "meetingCount": 33,
     "sectionCount": 367
   },
   "lessons": [
@@ -127,10 +127,13 @@ window.CPP_COURSE = {
       "number": null,
       "id": "konfiguracja-srodowiska",
       "route": "konfiguracja",
+      "shortTitle": "Konfiguracja środowiska",
+      "counterLabel": "Konfiguracja",
+      "menuLabel": "CFG",
       "kind": "setup",
       "title": "Konfiguracja środowiska",
       "sourceFile": "content/konfiguracja-srodowiska.md",
-      "checksum": "f3951c521854",
+      "checksum": "5b6066a9d2b2",
       "sections": [
         {
           "id": "01-instalacja-przez-portal-firmy",
@@ -250,6 +253,195 @@ window.CPP_COURSE = {
           "context": "",
           "kind": "setup",
           "markdown": "- **`git` nie jest rozpoznawany:** sprawdź zakończenie instalacji Git w Portalu Firmy i uruchom nowe okno PowerShell.\n- **`not a git repository`:** sprawdź lokalizację przez `pwd`; wejdź przez `cd` do właściwego sklonowanego repozytorium.\n- **`Permission denied (publickey)`:** sprawdź, czy dodałeś plik `.pub` do właściwego konta GitHub i czy powitanie po `ssh -T git@github.com` zawiera Twój login. Poproś prowadzącego o pomoc; nie wysyłaj mu klucza prywatnego.\n- **`nothing to commit`:** sprawdź, czy zapisałeś plik i przygotowałeś jego zmianę przez `git add .`.\n- **Odrzucony `push` lub konflikt przy `pull`:** nie używaj `--force` i nie usuwaj repozytorium. Zatrzymaj się, sprawdź komunikat oraz `git status` i poproś o pomoc w połączeniu zmian.\n\nPrzed następną lekcją potrafisz otworzyć PowerShell, wskazać repozytorium, wyświetlić plik oraz przejść pełny cykl od zmiany pliku do jej udostępnienia na GitHub."
+        },
+        {
+          "id": "18-naprawa-problemow-zwiazanych-z-klonowaniem-repozytorium-przy-pomocy-klucza-ssh",
+          "title": "Naprawa problemów związanych z klonowaniem repozytorium przy pomocy klucza SSH",
+          "context": "",
+          "kind": "setup",
+          "markdown": "To dodatkowa część przygotowania przed pierwszą lekcją. Skorzystaj z niej, jeśli klonowanie kończy się komunikatem:\n\n```text\nPermission denied (publickey).\nfatal: Could not read from remote repository.\n```\n\nGitHub nie zaakceptował uwierzytelnienia kluczem SSH. Program może nie odnajdywać klucza, używać innego klucza lub nie móc go odblokować. Na koncie GitHub może też brakować pasującego klucza publicznego.\n\nSprawdź kolejno pliki na komputerze, klucz na GitHub i program SSH używany przez Git. **Nie zaczynaj od usuwania kluczy ani repozytorium.** Jeśli klonowanie działa, możesz pominąć tę dodatkową część.\n\nWszystkie poniższe polecenia wpisuj w **PowerShell na swoim koncie Windows**.\n\nPomoc: [błąd Permission denied (publickey)](https://docs.github.com/en/authentication/troubleshooting-ssh/error-permission-denied-publickey)."
+        },
+        {
+          "id": "19-naprawa-ssh-odnalezienie-kluczy",
+          "title": "Naprawa SSH: odnalezienie kluczy",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Przejdź do swojego profilu i wyświetl pliki, również ukryte:\n\n```powershell\ncd \"$env:USERPROFILE\"\nls -Force\ncd .ssh\nls -Force\n```\n\nJeśli `.ssh` nie istnieje, zatrzymaj się i sprawdź miejsce zapisu wskazane podczas tworzenia klucza. Nie wykonuj kolejnych kroków usuwania w przypadkowym katalogu.\n\n| Plik | Znaczenie |\n|---|---|\n| `id_ed25519` | Klucz prywatny. Nie wyświetlaj go i nikomu go nie udostępniaj. |\n| `id_ed25519.pub` | Klucz publiczny. Jego zawartość dodajesz do GitHub. |\n| `known_hosts` | Zapamiętane klucze serwerów. Sam ten plik nie wystarczy do zalogowania. |\n\nKlucz może mieć inną nazwę, np. `id_rsa` i `id_rsa.pub`, albo znajdować się w innym miejscu. Korzystaj z rzeczywistych nazw. Przy ścieżkach ze spacjami używaj cudzysłowów."
+        },
+        {
+          "id": "20-naprawa-ssh-klucz-na-w-asciwym-koncie-github",
+          "title": "Naprawa SSH: klucz na właściwym koncie GitHub",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Wyświetl wyłącznie plik **publiczny**, z końcówką `.pub`. Dla standardowej nazwy:\n\n```powershell\ncat \"$env:USERPROFILE\\.ssh\\id_ed25519.pub\"\n```\n\n1. Skopiuj cały wyświetlony wiersz. Dla Ed25519 zaczyna się od `ssh-ed25519`.\n2. Zaloguj się na własne konto GitHub. Otwórz **Settings → SSH and GPG keys**.\n3. Sprawdź, czy konto ma klucz odpowiadający temu komputerowi. Sama podobna nazwa klucza nie potwierdza zgodności.\n4. Jeśli klucza brakuje, wybierz **New SSH key**, typ **Authentication Key**, wklej cały klucz publiczny i zatwierdź **Add SSH key**.\n\nNie kopiuj polecenia `cat`, znaku zachęty `PS` ani zawartości pliku prywatnego. Upewnij się, że to konto ma dostęp do repozytorium, które chcesz sklonować.\n\nPomoc: [dodawanie klucza publicznego do GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)."
+        },
+        {
+          "id": "21-naprawa-ssh-polskie-znaki-w-sciezce-profilu",
+          "title": "Naprawa SSH: polskie znaki w ścieżce profilu",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Przykładowy komunikat wskazujący na problem obsługi ścieżki przez używany program SSH:\n\n```text\nCould not create directory '/c/Users/Wi\\234niewski/.ssh'\nFailed to add the host to the list of known hosts\n```\n\nJeżeli w błędzie widzisz zniekształconą nazwę swojego profilu, samo ponowne dodanie klucza na GitHub może nie pomóc. Klonowanie do `C:\\Repo` również nie zmienia miejsca, w którym SSH szuka kluczy użytkownika.\n\nSprawdź obecność systemowego klienta SSH:\n\n```powershell\ncd C:\\Windows\\System32\\OpenSSH\nls\n```\n\nZnajdź `ssh.exe`. Jeśli katalogu lub pliku nie ma, poproś prowadzącego o pomoc z klientem OpenSSH. Nie zakładaj, że każde `Permission denied` wynika z polskich znaków. Ten krok dotyczy problemu ścieżki widocznego w komunikacie."
+        },
+        {
+          "id": "22-naprawa-ssh-wybor-systemowego-programu-windows",
+          "title": "Naprawa SSH: wybór systemowego programu Windows",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Jeżeli istnieje `C:\\Windows\\System32\\OpenSSH\\ssh.exe`, możesz wskazać go Gitowi. Najpierw sprawdź dotychczasowe ustawienie:\n\n```powershell\ngit config --global --get core.sshCommand\n```\n\nBrak wyświetlonej wartości oznacza brak tego ustawienia na poziomie globalnym. Jeśli masz już własne polecenie, zachowaj je i skonsultuj zmianę z prowadzącym, zwłaszcza gdy pracujesz także z innymi repozytoriami.\n\n```powershell\ngit config --global core.sshCommand \"C:/Windows/System32/OpenSSH/ssh.exe\"\n```\n\n`--global` ustawia program SSH dla operacji Git na Twoim koncie Windows, o ile inne ustawienie go nie nadpisuje. Nie zmienia nazwy profilu ani nie przenosi kluczy.\n\nSprawdź połączenie dokładnie tym samym klientem:\n\n```powershell\n& \"C:\\Windows\\System32\\OpenSSH\\ssh.exe\" -T git@github.com\n```\n\nW PowerShell znak `&` uruchamia program wskazany ścieżką w cudzysłowach. Samo `ssh -T` może wybrać inną instalację SSH.\n\nPomoc: [wybór systemowego OpenSSH w Windows](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=windows)."
+        },
+        {
+          "id": "23-naprawa-ssh-ponowne-po-aczenie-i-klonowanie",
+          "title": "Naprawa SSH: ponowne połączenie i klonowanie",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Przy pytaniu o zaufanie do serwera porównaj odcisk z [oficjalnymi odciskami GitHub](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints). Potwierdź `yes` tylko przy zgodności.\n\nProśba **Enter passphrase** dotyczy frazy ustawionej dla klucza, a nie hasła do GitHub. Niewidoczne znaki podczas wpisywania są normalne. Po udanym połączeniu sprawdź login w powitaniu. Informacja, że GitHub nie udostępnia powłoki, jest prawidłowa.\n\nOtwórz repozytorium na GitHub i skopiuj jego adres z **Code → SSH**. W poniższym przykładzie zastąp `LOGIN` i `NAZWA-REPO` rzeczywistymi wartościami:\n\n```powershell\ncd C:\\Repo\ngit clone git@github.com:LOGIN/NAZWA-REPO.git\n```\n\nKatalog `C:\\Repo` musi istnieć i być dostępny do zapisu. Poczekaj na zakończenie klonowania. Jeśli docelowy podkatalog już istnieje i zawiera pliki, **nie usuwaj go ani nie nadpisuj**. Sprawdź z prowadzącym, czy repozytorium zostało już sklonowane.\n\nJeśli SSH rozpoznaje właściwe konto, ale klonowanie nadal się nie udaje, sprawdź adres repozytorium i uprawnienia tego konta."
+        },
+        {
+          "id": "24-naprawa-ssh-opcjonalna-wymiana-klucza-do-cwiczen",
+          "title": "Naprawa SSH: opcjonalna wymiana klucza do ćwiczeń",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Jeśli nie pamiętasz frazy klucza albo prowadzący zaleci jego wymianę, możesz utworzyć nową parę. **Poniższy wariant dotyczy wyłącznie klucza używanego do tych ćwiczeń.** Wymiana nie naprawi błędu kodowania ścieżki.\n\nJeśli używasz starego klucza również w innych miejscach lub nie jesteś pewien, który plik do niego należy, nie usuwaj go. Poproś o pomoc w utworzeniu oddzielnego klucza pod inną nazwą.\n\n1. Na GitHub otwórz **Settings → SSH and GPG keys**. Zidentyfikuj dokładnie klucz tego komputera dodany do ćwiczeń. Dopiero wtedy wybierz **Delete** i potwierdź.\n2. W PowerShell sprawdź katalog i nazwy plików:\n\n```powershell\ncd \"$env:USERPROFILE\\.ssh\"\npwd\nls -Force\n```\n\n3. **Tylko gdy potwierdzisz, że są to dwa pliki niepotrzebnego już klucza do ćwiczeń**, usuń je:\n\n```powershell\nrm .\\id_ed25519\nrm .\\id_ed25519.pub\nls -Force\n```\n\nPolecenie `rm` usuwa plik bez przenoszenia go do Kosza. Przykładowe nazwy muszą odpowiadać sprawdzonemu kluczowi. Pozostaw `.ssh`, `known_hosts` i wszystkie inne pliki. Nie używaj gwiazdki ani usuwania całego katalogu."
+        },
+        {
+          "id": "25-naprawa-ssh-utworzenie-nowej-pary-kluczy",
+          "title": "Naprawa SSH: utworzenie nowej pary kluczy",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Po świadomym usunięciu starego klucza do ćwiczeń sprawdź, czy w `C:\\Windows\\System32\\OpenSSH` jest `ssh-keygen.exe`. Jeśli go brakuje, zgłoś to prowadzącemu. Zastąp przykładowy adres swoim e-mailem:\n\n```powershell\n& \"C:\\Windows\\System32\\OpenSSH\\ssh-keygen.exe\" -t ed25519 -C \"twoj_email@example.com\"\n```\n\n1. Przy **Enter file in which to save the key** sprawdź, czy proponowana ścieżka prowadzi do `id_ed25519` w Twoim `.ssh`. Jeśli jest prawidłowa i plik nie istnieje, zaakceptuj ją Enterem.\n2. Jeśli pojawi się pytanie o nadpisanie pliku, odpowiedz **n** i wyjaśnij sytuację z prowadzącym.\n3. Zalecanym rozwiązaniem jest fraza zabezpieczająca klucz. W opcjonalnym wariancie **bez frazy**, uzgodnionym z prowadzącym do tych ćwiczeń, naciśnij Enter przy **Enter passphrase** i ponownie przy **Enter same passphrase again**.\n\nKlucz bez frazy nie ma dodatkowej ochrony na wypadek skopiowania pliku prywatnego. Nie przechowuj go w repozytorium, na wspólnym koncie ani w miejscu dostępnym innym osobom."
+        },
+        {
+          "id": "26-naprawa-ssh-dodanie-nowego-klucza-i-zakonczenie",
+          "title": "Naprawa SSH: dodanie nowego klucza i zakończenie",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Sprawdź utworzone pliki i wyświetl wyłącznie nowy klucz publiczny:\n\n```powershell\nls \"$env:USERPROFILE\\.ssh\"\ncat \"$env:USERPROFILE\\.ssh\\id_ed25519.pub\"\n```\n\n1. Znajdź parę `id_ed25519` i `id_ed25519.pub`.\n2. Skopiuj cały wiersz z pliku `.pub`. Na GitHub wybierz **Settings → SSH and GPG keys → New SSH key**.\n3. Ustaw **Authentication Key**, nadaj opis, np. `Komputer — zajęcia C++`, wklej klucz i zatwierdź.\n4. Ponów sprawdzenie połączenia i klonowanie według wcześniejszych slajdów. Klucz utworzony bez frazy nie powinien pytać o jej podanie.\n\nJeśli nadal widzisz błąd tworzenia katalogu z polskimi znakami, wróć do wyboru systemowego SSH. Jeśli problem pozostaje, pokaż prowadzącemu **dokładny komunikat oraz nazwy plików** widoczne po `ls` w `.ssh`.\n\n**Nigdy nie pokazuj zawartości klucza prywatnego ani swojej frazy zabezpieczającej.**\n\nPomoc: [diagnostyka uwierzytelniania SSH](https://docs.github.com/en/authentication/troubleshooting-ssh/error-permission-denied-publickey)."
+        }
+      ]
+    },
+    {
+      "number": null,
+      "id": "codeblocks-kompilator",
+      "route": "codeblocks",
+      "shortTitle": "Code::Blocks i kompilator C++",
+      "counterLabel": "Code::Blocks",
+      "menuLabel": "IDE",
+      "kind": "setup",
+      "title": "Warianty instalacji Code::Blocks i konfiguracji kompilatora",
+      "sourceFile": "content/codeblocks-kompilator.md",
+      "checksum": "f0ccac32b21f",
+      "sections": [
+        {
+          "id": "01-code-blocks-i-kompilator-c",
+          "title": "Code::Blocks i kompilator C++",
+          "context": "",
+          "kind": "setup",
+          "markdown": "**Code::Blocks** to środowisko, w którym piszesz kod i uruchamiasz budowanie projektu. **Kompilator C++**, np. G++ z pakietu MinGW, tłumaczy kod na postać potrzebną do utworzenia programu wykonywalnego.\n\nSamo otwarcie edytora nie potwierdza obecności kompilatora. Sprawdzimy cały proces na programie `HelloWorld`.\n\n1. Jeśli masz już Code::Blocks, utwórz projekt i sprawdź, czy działa.\n2. Jeśli program nie znajduje kompilatora, spróbuj **Auto-detect**.\n3. Jeśli nadal brakuje kompilatora albo nie masz jeszcze Code::Blocks, wybierz jeden z opisanych wariantów instalacji.\n\n**Warianty są alternatywami. Jeśli program poprawnie się kompiluje i uruchamia, nie zmieniaj działającej instalacji.**\n\nPomoc: [dokumentacja Code::Blocks](https://www.codeblocks.org/docs/main_codeblocks_en3.html)."
+        },
+        {
+          "id": "02-projekt-aplikacji-konsolowej",
+          "title": "Projekt aplikacji konsolowej",
+          "context": "",
+          "kind": "setup",
+          "markdown": "1. Uruchom Code::Blocks. Wybierz **File → New → Project…**.\n2. Zaznacz **Console application** i kliknij **Go**. Jeśli pojawi się powitanie, wybierz **Next**.\n3. Wybierz język **C++**, następnie **Next**.\n4. W polu **Project title** wpisz `HelloWorld`.\n5. W **Folder to create project in** wskaż własny folder na projekty, np. `C:\\ProjektyCPP`, jeśli masz tam prawo zapisu. Wybierz ścieżkę bez polskich znaków i najlepiej bez spacji.\n6. Kliknij **Next**. Jako **Compiler** wybierz **GNU GCC Compiler**. Pozostaw zaznaczone **Debug** i **Release**.\n7. Kliknij **Finish**. Po lewej rozwiń projekt i **Sources**, a następnie otwórz **main.cpp**.\n\nZachowaj cały katalog projektu. Plik `HelloWorld.cbp` przechowuje ustawienia projektu, a `main.cpp` zawiera jego kod źródłowy."
+        },
+        {
+          "id": "03-kod-programu-helloworld",
+          "title": "Kod programu HelloWorld",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Zastąp początkową zawartość pliku `main.cpp` tym kodem i zapisz plik przez **Ctrl + S**:\n\n```cpp\n#include <iostream>\n\nint main()\n{\n    std::cout << \"Hello World!\" << std::endl;\n    return 0;\n}\n```\n\nWybierz **Build → Build and run** lub naciśnij **F9**. Code::Blocks najpierw buduje program, a potem go uruchamia.\n\nNa tym etapie sprawdzamy środowisko. Znaczenie poszczególnych elementów kodu omówimy podczas Lekcji 1."
+        },
+        {
+          "id": "04-wynik-poprawnego-uruchomienia",
+          "title": "Wynik poprawnego uruchomienia",
+          "context": "",
+          "kind": "setup",
+          "markdown": "W oknie konsoli powinien pojawić się napis:\n\n```text\nHello World!\n```\n\nCode::Blocks może dodatkowo wyświetlić kod zakończenia `0` oraz prośbę o naciśnięcie dowolnego klawisza. To prawidłowe zachowanie.\n\n**Budowanie bez błędów i widoczny napis potwierdzają, że podstawowa konfiguracja działa.** Nie musisz wtedy reinstalować programu ani wykonywać kolejnych wariantów naprawy.\n\nKomunikat o nieprawidłowej konfiguracji kompilatora lub o braku `g++.exe` wskazuje na problem z instalacją albo ścieżką. Błąd wskazujący konkretną linię kodu może natomiast wynikać z literówki. Przeczytaj komunikat przed zmianą ustawień."
+        },
+        {
+          "id": "05-automatyczne-wykrywanie-kompilatora",
+          "title": "Automatyczne wykrywanie kompilatora",
+          "context": "",
+          "kind": "setup",
+          "markdown": "1. Otwórz **Settings → Compiler…**.\n2. W polu **Selected compiler** wybierz **GNU GCC Compiler**.\n3. Przejdź do **Toolchain executables** i kliknij **Auto-detect**.\n4. Jeżeli program znalazł kompilator, zatwierdź ustawienia przez **OK**.\n5. W projekcie `HelloWorld` wybierz **Build → Rebuild**, a następnie **Build → Build and run**.\n\n**Rebuild** buduje projekt od nowa. Używaj go po zmianie kompilatora lub jego konfiguracji, aby sprawdzić nowe ustawienia.\n\nJeżeli wykrywanie nie pomoże, przejdź do wyboru wariantu. Samo ustawienie nazwy **GNU GCC Compiler** nie instaluje brakujących narzędzi."
+        },
+        {
+          "id": "06-trzy-warianty-instalacji",
+          "title": "Trzy warianty instalacji",
+          "context": "",
+          "kind": "setup",
+          "markdown": "| Wariant | Co zmieniasz? | Skąd pobierasz oprogramowanie? |\n|---|---|---|\n| 1. Code::Blocks z Microsoft Store | Zastępujesz dotychczasową instalację IDE | Microsoft Store |\n| 2. CodeBlocksMinGW | Zastępujesz IDE pakietem udostępnionym razem z MinGW | Portal Firmy |\n| 3. Osobny MinGW | Zachowujesz IDE i dodajesz kompilator | Portal Firmy |\n\nWybierz wariant dostępny na szkolnym komputerze. **Nie wykonuj wszystkich po kolei.** Jeśli Code::Blocks nie jest jeszcze zainstalowany, pomiń odinstalowanie w wariancie 1 lub 2.\n\nNazwy **CodeBlocksMinGW** i **MinGW** dotyczą pakietów udostępnionych przez naszą organizację. Ich dostępność i zawartość zależą od konfiguracji Portalu Firmy. Brak właściwego pakietu zgłoś prowadzącemu."
+        },
+        {
+          "id": "07-zachowanie-projektow-i-usuniecie-starej-instalacji",
+          "title": "Zachowanie projektów i usunięcie starej instalacji",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Ten krok dotyczy **wariantów 1 i 2**, jeśli zastępujesz istniejący Code::Blocks. W wariancie 3 pozostawiasz IDE.\n\n1. Zapisz pliki, zamknij Code::Blocks i zachowaj własne katalogi projektów, najlepiej także ich kopię. Nie usuwaj ich razem z aplikacją.\n2. Otwórz **Portal Firmy → Aplikacje → Code::Blocks**. Jeśli dostępny jest przycisk **Odinstaluj**, użyj go i poczekaj na zakończenie.\n3. Jeśli przycisku nie ma, sprawdź **Ustawienia Windows → Aplikacje → Zainstalowane aplikacje → Code::Blocks → Odinstaluj**. W Windows 10 lista może nazywać się **Aplikacje i funkcje**.\n\nJeżeli odinstalowanie jest zablokowane albo wymaga uprawnień administratora, poproś prowadzącego lub administratora o pomoc. Nie omijaj zabezpieczeń.\n\nPomoc: [aplikacje z Portalu Firmy](https://learn.microsoft.com/en-us/intune/user-help/apps/install-apps-windows)."
+        },
+        {
+          "id": "08-wariant-1-code-blocks-z-microsoft-store",
+          "title": "Wariant 1: Code::Blocks z Microsoft Store",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Po zapisaniu projektów i odinstalowaniu poprzedniej wersji:\n\n1. Otwórz **Microsoft Store** i wyszukaj **Code::Blocks** lub otwórz [stronę aplikacji w sklepie](https://apps.microsoft.com/detail/xpdm24hmt29wss).\n2. Wybierz **Pobierz** lub **Zainstaluj** i poczekaj na zakończenie.\n3. Uruchom Code::Blocks. Jeśli wyświetli wykryty **GNU GCC Compiler**, wybierz go.\n4. Otwórz zapisany `HelloWorld.cbp` przez **File → Open…** albo utwórz projekt według wcześniejszej instrukcji.\n5. Wybierz **Build → Rebuild**, a następnie **Build → Build and run**.\n\n**Nie zakładaj, że sama instalacja ze sklepu zapewni kompilator.** Jeżeli go brakuje, użyj **Auto-detect** lub doinstaluj MinGW zgodnie z wariantem 3.\n\nJeśli szkoła blokuje Microsoft Store, skorzystaj z wariantu dostępnego w Portalu Firmy lub zgłoś problem prowadzącemu."
+        },
+        {
+          "id": "09-wariant-2-pakiet-codeblocksmingw",
+          "title": "Wariant 2: pakiet CodeBlocksMinGW",
+          "context": "",
+          "kind": "setup",
+          "markdown": "1. Zapisz projekty i zamknij Code::Blocks.\n2. Odinstaluj dotychczasową wersję zgodnie z wcześniejszą instrukcją. Jeśli przechodzisz z wersji ze sklepu, usuń tę instalację, pozostawiając własne projekty.\n3. W **Portalu Firmy** wyszukaj dokładnie **CodeBlocksMinGW**.\n4. Kliknij **Zainstaluj** i poczekaj na zakończenie instalacji.\n5. Uruchom Code::Blocks. Jeśli pojawi się lista kompilatorów, wybierz wykryty **GNU GCC Compiler**.\n6. Otwórz `HelloWorld.cbp` lub utwórz projekt. Wybierz **Build → Rebuild**, potem **Build → Build and run**.\n\nTen wariant zakłada szkolny pakiet Code::Blocks razem z MinGW. Jeśli program nie wykryje dołączonego kompilatora, użyj **Auto-detect** albo wskaż jego folder ręcznie według kolejnych slajdów.\n\nJeśli nie widzisz pakietu o tej nazwie, skontaktuj się z prowadzącym. Nie wybieraj przypadkowego programu o podobnej nazwie."
+        },
+        {
+          "id": "10-wariant-3-osobna-instalacja-mingw",
+          "title": "Wariant 3: osobna instalacja MinGW",
+          "context": "",
+          "kind": "setup",
+          "markdown": "W tym wariancie **pozostawiasz zainstalowany Code::Blocks** i dodajesz kompilator.\n\n1. Zamknij Code::Blocks.\n2. Otwórz **Portal Firmy** i wyszukaj pakiet **MinGW**.\n3. Kliknij **Zainstaluj** i poczekaj na zakończenie.\n4. Ponownie uruchom Code::Blocks.\n5. Otwórz **Settings → Compiler… → GNU GCC Compiler → Toolchain executables** i wybierz **Auto-detect**.\n6. Jeśli wykrywanie się uda, zatwierdź ustawienia i sprawdź projekt przez **Rebuild**, potem **Build and run**.\n\nJeśli wykrywanie się nie uda, znajdź rzeczywisty folder MinGW i wskaż go ręcznie. Te same kroki możesz zastosować do MinGW dołączonego do pakietu z wariantu 2."
+        },
+        {
+          "id": "11-lokalizacja-plikow-kompilatora",
+          "title": "Lokalizacja plików kompilatora",
+          "context": "",
+          "kind": "setup",
+          "markdown": "W Eksploratorze plików odszukaj instalację MinGW. Jej lokalizacja może być podana w opisie pakietu w Portalu Firmy.\n\nPrzykładowe katalogi:\n\n```text\nC:\\MinGW\nC:\\mingw64\nC:\\Program Files\\CodeBlocks\\MinGW\n```\n\nTo **przykłady**, a nie ścieżki do bezwarunkowego przepisania. W swojej instalacji znajdź podkatalog **bin**, a w nim pliki **gcc.exe** i **g++.exe**.\n\nNazwy mogą zawierać przedrostek, np. `x86_64-w64-mingw32-g++.exe`. Zapisz rzeczywistą lokalizację i nazwy. Pusty katalog nazwany `MinGW` nie zastępuje instalacji kompilatora."
+        },
+        {
+          "id": "12-reczne-ustawienie-katalogu-mingw",
+          "title": "Ręczne ustawienie katalogu MinGW",
+          "context": "",
+          "kind": "setup",
+          "markdown": "1. Wybierz **Settings → Compiler…**.\n2. Ustaw **Selected compiler: GNU GCC Compiler**.\n3. Otwórz **Toolchain executables**.\n4. Obok **Compiler's installation directory** kliknij **…** i wskaż główny katalog swojej instalacji MinGW.\n\n| Znaleziony plik | Katalog do wpisania w ustawieniach |\n|---|---|\n| `C:\\MinGW\\bin\\g++.exe` | `C:\\MinGW` |\n| `C:\\mingw64\\bin\\g++.exe` | `C:\\mingw64` |\n| `C:\\Program Files\\CodeBlocks\\MinGW\\bin\\g++.exe` | `C:\\Program Files\\CodeBlocks\\MinGW` |\n\n**W tym polu wskazujesz folder nadrzędny wobec `bin`, a nie sam `bin` ani plik `g++.exe`.**\n\nPomoc: [konfiguracja MinGW w Code::Blocks, rozdział 5.2.3](https://www.codeblocks.org/docs/main_codeblocks_en3.html)."
+        },
+        {
+          "id": "13-nazwy-narzedzi-w-toolchain-executables",
+          "title": "Nazwy narzędzi w Toolchain executables",
+          "context": "",
+          "kind": "setup",
+          "markdown": "W części **Program Files** sprawdź pola:\n\n| Pole w Code::Blocks | Typowa nazwa pliku |\n|---|---|\n| C compiler | `gcc.exe` |\n| C++ compiler | `g++.exe` |\n| Linker for dynamic libs | `g++.exe` |\n\nNazwy muszą zgadzać się z plikami w katalogu **bin** wybranej instalacji. Jeśli pliki mają przedrostki, wpisz pełne nazwy, np. `x86_64-w64-mingw32-g++.exe` dla kompilatora C++.\n\nW razie potrzeby użyj przycisku **…** obok odpowiedniego pola. Wybieraj narzędzia z tej samej instalacji MinGW, aby nie mieszać różnych zestawów.\n\nZatwierdź ustawienia przyciskiem **OK**."
+        },
+        {
+          "id": "14-ustawienia-projektu-i-ponowne-uruchomienie",
+          "title": "Ustawienia projektu i ponowne uruchomienie",
+          "context": "",
+          "kind": "setup",
+          "markdown": "1. Otwórz projekt `HelloWorld`.\n2. Wybierz **Project → Build options…**.\n3. Po lewej zaznacz nazwę całego projektu. Sprawdź, czy wybrano **GNU GCC Compiler**.\n4. Jeśli osobny wybór kompilatora występuje dla **Debug** lub **Release**, sprawdź także te pozycje.\n5. Zatwierdź zmiany. Wybierz **Build → Rebuild**.\n6. Jeśli budowanie zakończy się bez błędów, wybierz **Build → Build and run**.\n\nNapis `Hello World!` w konsoli potwierdza działanie podstawowej konfiguracji.\n\nPrzy poprawnym wskazaniu narzędzi w Code::Blocks do tego sprawdzenia nie musisz dodatkowo zmieniać systemowej zmiennej **Path**. Konfiguracja kompilatora w IDE i dostępność polecenia `g++` w PowerShell to odrębne ustawienia."
+        },
+        {
+          "id": "15-rozpoznawanie-b-edow-budowania",
+          "title": "Rozpoznawanie błędów budowania",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Otwórz **Build log** w dolnym panelu. Jeśli panel jest ukryty, włącz go przez **View → Logs**.\n\n| Objaw | Co sprawdzić? |\n|---|---|\n| Nie znaleziono kompilatora lub `g++.exe` | Czy MinGW jest zainstalowany? Czy katalog i nazwy narzędzi zgadzają się z plikami na dysku? |\n| Błąd wskazuje linię w `main.cpp` | Porównaj kod z przykładem, zwłaszcza średniki, nawiasy i cudzysłowy. |\n| Pytanie o zbudowanie projektu | Wybierz **Build and run**, aby skompilować kod przed uruchomieniem. |\n| Nie można nadpisać pliku wykonywalnego | Zamknij poprzednie okno programu `HelloWorld`, potem ponów **Rebuild**. |\n| Budowanie się udało, ale program nie startuje | Zapisz dokładny komunikat, np. o brakującej bibliotece lub blokadzie uruchamiania. |\n\nNie reinstaluj kompilatora tylko dlatego, że program zgłasza błąd składni w kodzie."
+        },
+        {
+          "id": "16-zg-oszenie-problemu-i-gotowosc-do-lekcji-1",
+          "title": "Zgłoszenie problemu i gotowość do Lekcji 1",
+          "context": "",
+          "kind": "setup",
+          "markdown": "Jeśli nadal nie możesz zbudować i uruchomić programu, przekaż prowadzącemu:\n\n- treść komunikatów z **Build log**;\n- zrzut ustawień **Toolchain executables**;\n- informację, który wariant instalacji wybrałeś i gdzie znajduje się MinGW.\n\nZachowaj projekt. Nie usuwaj kodu ani nie zmieniaj przypadkowo kolejnych ustawień. Brak uprawnień, niedostępny pakiet lub blokadę uruchamiania zgłoś prowadzącemu albo administratorowi.\n\nPrzed Lekcją 1 potrafisz znaleźć `HelloWorld.cbp`, otworzyć `main.cpp`, zapisać zmianę i uruchomić program przez **Build and run**.\n\nDokumentacja: [Code::Blocks](https://www.codeblocks.org/docs/main_codeblocks_en3.html), [Portal Firmy](https://learn.microsoft.com/en-us/intune/user-help/apps/install-apps-windows)."
         }
       ]
     },

@@ -317,7 +317,7 @@
     }
 
     function lessonLabel(lesson) {
-        if (lesson.kind === "setup") return "Konfiguracja środowiska";
+        if (lesson.kind === "setup") return lesson.shortTitle ?? lesson.title;
         return `${lesson.kind === "exam" ? "Spotkanie" : "Lekcja"} ${lesson.number}`;
     }
 
@@ -409,7 +409,7 @@
         return `
             <div class="slide-inner">
                 <header class="slide-heading">
-                    <span class="slide-type">${typeLabel}</span>
+                    <span class="slide-type">${escapeHtml(typeLabel)}</span>
                     <h1>${inlineMarkdown(section.title)}</h1>
                     ${context}
                 </header>
@@ -577,7 +577,7 @@
                 ? lesson.title : `${locationLabel} · ${lesson.title}`;
             elements.slideCounter.textContent = lesson.kind === "exam"
                 ? `Sprawdzian · 1/1`
-                : `${lesson.kind === "setup" ? "Konfiguracja" : locationLabel} · ${state.vertical + 1}/${maximum + 1}`;
+                : `${lesson.counterLabel ?? locationLabel} · ${state.vertical + 1}/${maximum + 1}`;
             document.title = lesson.kind === "setup" ? lesson.title : `${locationLabel}: ${lesson.title}`;
         }
 
@@ -667,7 +667,7 @@
                     : "lesson-link";
             button.dataset.horizontal = String(index + 1);
             button.dataset.search = `${lesson.number ?? ""} ${lesson.title}`.toLocaleLowerCase("pl");
-            button.innerHTML = `<span class="lesson-link-number">${String(lesson.number ?? "CFG").padStart(2, "0")}</span>`
+            button.innerHTML = `<span class="lesson-link-number">${escapeHtml(String(lesson.number ?? lesson.menuLabel ?? "CFG").padStart(2, "0"))}</span>`
                 + `<span class="lesson-link-title">${escapeHtml(lesson.title)}</span>`;
             button.addEventListener("click", () => {
                 const direction = index + 1 >= state.horizontal ? "enter-right" : "enter-left";

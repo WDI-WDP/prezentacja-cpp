@@ -30,9 +30,12 @@ Po zakończeniu wdrożenia strona będzie dostępna pod adresem podanym w sekcji
 
 Plik `slides-data.js` jest generowany z arkuszy kursu. Prezentację rozpoczyna Lekcja 0 zawierająca organizację i zasady zajęć. Generator pomija treść kartkówek i zadań sprawdzianowych, zachowując treść dydaktyczną, zadania wykonywane podczas lekcji oraz zadania do samodzielnego wykonania. W miejscach sprawdzianów tworzy po jednym slajdzie informacyjnym z czasem, punktacją i zakresem materiału.
 
-Między Lekcją 0 a Lekcją 1 znajduje się osobny blok **Konfiguracja środowiska**: instalacja Git i GitHub Desktop przez Portal Firmy, przejście z cmd do PowerShell, polecenia `cd`, `ls` i `cat`, konfiguracja autora commitów, klucze SSH i GitHub, klonowanie oraz codzienny przebieg pracy z Git. Numeracja dotychczasowych lekcji i sprawdzianów pozostaje bez zmian.
+Między Lekcją 0 a Lekcją 1 znajdują się dwa bloki przygotowania. Numeracja dotychczasowych lekcji i sprawdzianów pozostaje bez zmian.
 
-Źródłem tego bloku jest [content/konfiguracja-srodowiska.md](content/konfiguracja-srodowiska.md), przechowywany w tym repozytorium prezentacji. Każdy nagłówek drugiego poziomu tworzy osobny slajd. Polecenia są instrukcjami dla ucznia — strona ich nie wykonuje. Bezpośredni adres bloku po otwarciu prezentacji to `#/konfiguracja/0`; strzałki ←/→ przechodzą przez Lekcję 0, konfigurację i Lekcję 1 w tej kolejności.
+- **Konfiguracja środowiska**: instalacja Git i GitHub Desktop przez Portal Firmy, PowerShell, klucze SSH, klonowanie i codzienna praca z Git. Kończy ją dodatkowa część **Naprawa problemów związanych z klonowaniem repozytorium przy pomocy klucza SSH**: rozpoznanie błędu, sprawdzenie kluczy, problem polskich znaków w ścieżce, wybór systemowego SSH i opcjonalna wymiana klucza używanego wyłącznie do ćwiczeń. Źródło: [content/konfiguracja-srodowiska.md](content/konfiguracja-srodowiska.md). Adres bloku: `#/konfiguracja/0`.
+- **Warianty instalacji Code::Blocks i konfiguracji kompilatora**: projekt HelloWorld, sprawdzenie kompilacji, Auto-detect, alternatywne instalacje przez Microsoft Store lub Portal Firmy, ręczne wskazanie MinGW i diagnostyka. Źródło: [content/codeblocks-kompilator.md](content/codeblocks-kompilator.md). Adres bloku: `#/codeblocks/0`.
+
+Źródła obu bloków są przechowywane w tym repozytorium prezentacji. Każdy nagłówek drugiego poziomu tworzy osobny slajd. Polecenia są instrukcjami dla ucznia — strona ich nie wykonuje. Strzałki ←/→ przechodzą kolejno przez Lekcję 0, konfigurację środowiska, Code::Blocks i Lekcję 1. Strzałki ↑/↓ zmieniają elementy wybranego bloku.
 
 Przy obecnym układzie katalogów uruchom:
 

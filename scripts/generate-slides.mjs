@@ -7,7 +7,24 @@ const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryDirectory = resolve(scriptDirectory, "..");
 const sourceDirectory = resolve(process.argv[2] ?? join(repositoryDirectory, ".."));
 const outputPath = join(repositoryDirectory, "slides-data.js");
-const setupFile = "content/konfiguracja-srodowiska.md";
+const preparationBlocks = [
+    {
+        file: "content/konfiguracja-srodowiska.md",
+        id: "konfiguracja-srodowiska",
+        route: "konfiguracja",
+        shortTitle: "Konfiguracja środowiska",
+        counterLabel: "Konfiguracja",
+        menuLabel: "CFG"
+    },
+    {
+        file: "content/codeblocks-kompilator.md",
+        id: "codeblocks-kompilator",
+        route: "codeblocks",
+        shortTitle: "Code::Blocks i kompilator C++",
+        counterLabel: "Code::Blocks",
+        menuLabel: "IDE"
+    }
+];
 
 const examinationNumbers = new Set([6, 12, 18, 24, 30]);
 
@@ -230,7 +247,7 @@ function readOrganization(fileName) {
     };
 }
 
-function readSetup() {
+function readSetup({ file: setupFile, id, route, shortTitle, counterLabel, menuLabel }) {
     const source = readFileSync(join(repositoryDirectory, setupFile), "utf8").replace(/\r\n/g, "\n");
     const title = source.match(/^#\s+(.+)$/m)?.[1]?.trim();
     const headings = [...source.matchAll(/^##\s+(.+)$/gm)];
@@ -249,8 +266,11 @@ function readSetup() {
 
     return {
         number: null,
-        id: "konfiguracja-srodowiska",
-        route: "konfiguracja",
+        id,
+        route,
+        shortTitle,
+        counterLabel,
+        menuLabel,
         kind: "setup",
         title,
         sourceFile: setupFile,
@@ -376,14 +396,14 @@ for (const examination of examinations) {
     }
 }
 
-const setupLesson = readSetup();
+const setupLessons = preparationBlocks.map(readSetup);
 const numberedLessons = [...contentLessons, ...examinations]
     .sort((first, second) => first.number - second.number);
-const lessons = [...organizationLessons, setupLesson, ...numberedLessons];
+const lessons = [...organizationLessons, ...setupLessons, ...numberedLessons];
 
-if (organizationLessons.length !== 1 || contentLessons.length !== 25 || examinations.length !== 5 || lessons.length !== 32) {
+if (organizationLessons.length !== 1 || setupLessons.length !== 2 || contentLessons.length !== 25 || examinations.length !== 5 || lessons.length !== 33) {
     throw new Error(
-        `Oczekiwano Lekcji 0, konfiguracji środowiska, 25 lekcji i 5 sprawdzianów, znaleziono ${organizationLessons.length} lekcji organizacyjnych, ${contentLessons.length} lekcji oraz ${examinations.length} sprawdzianów.`
+        `Oczekiwano Lekcji 0, dwóch bloków przygotowania, 25 lekcji i 5 sprawdzianów, znaleziono ${organizationLessons.length} lekcji organizacyjnych, ${setupLessons.length} bloków przygotowania, ${contentLessons.length} lekcji oraz ${examinations.length} sprawdzianów.`
     );
 }
 
@@ -396,8 +416,8 @@ const course = {
         email: "jakub.gratkiewicz@wat.edu.pl",
         organizationCount: organizationLessons.length,
         organizationSectionCount: organizationLessons[0].sections.length,
-        setupCount: 1,
-        setupSectionCount: setupLesson.sections.length,
+        setupCount: setupLessons.length,
+        setupSectionCount: setupLessons.reduce((sum, lesson) => sum + lesson.sections.length, 0),
         lessonCount: contentLessons.length,
         examCount: examinations.length,
         meetingCount: lessons.length,
@@ -413,5 +433,5 @@ writeFileSync(
 );
 
 console.log(
-    `Wygenerowano Lekcję 0 (${organizationLessons[0].sections.length} elementów), konfigurację środowiska (${setupLesson.sections.length} elementów), ${course.meta.lessonCount} lekcji, ${course.meta.examCount} slajdów sprawdzianowych i ${course.meta.sectionCount} slajdów treści kursu w ${outputPath}.`
+    `Wygenerowano Lekcję 0 (${organizationLessons[0].sections.length} elementów), ${course.meta.setupCount} bloki przygotowania (${course.meta.setupSectionCount} elementów), ${course.meta.lessonCount} lekcji, ${course.meta.examCount} slajdów sprawdzianowych i ${course.meta.sectionCount} slajdów treści kursu w ${outputPath}.`
 );
