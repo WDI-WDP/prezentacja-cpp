@@ -2,15 +2,17 @@
 
 ## Code::Blocks i kompilator C++
 
-**Code::Blocks** to środowisko, w którym piszesz kod i uruchamiasz budowanie projektu. **Kompilator C++**, np. G++ z pakietu MinGW, tłumaczy kod na postać potrzebną do utworzenia programu wykonywalnego.
+**Code::Blocks** to środowisko, w którym piszesz kod i uruchamiasz budowanie projektu. **Kompilator C++**, np. G++ z pakietu TDM-GCC, tłumaczy kod na postać potrzebną do utworzenia programu wykonywalnego.
 
 Samo otwarcie edytora nie potwierdza obecności kompilatora. Sprawdzimy cały proces na programie `HelloWorld`.
 
 1. Jeśli masz już Code::Blocks, utwórz projekt i sprawdź, czy działa.
 2. Jeśli program nie znajduje kompilatora, spróbuj **Auto-detect**.
-3. Jeśli nadal brakuje kompilatora albo nie masz jeszcze Code::Blocks, wybierz jeden z opisanych wariantów instalacji.
+3. Jeśli brakuje tylko kompilatora, przejdź do wariantu 3. Jeśli nie masz Code::Blocks, najpierw zainstaluj IDE według wariantu 1 albo 2.
 
-**Warianty są alternatywami. Jeśli program poprawnie się kompiluje i uruchamia, nie zmieniaj działającej instalacji.**
+**Jeśli program poprawnie się kompiluje i uruchamia, nie zmieniaj działającej instalacji.**
+
+**Osobnego kompilatora TDM-GCC nie ma w Portalu Firmy.** Pobieramy go z podanego dalej linku, umieszczamy w folderze użytkownika i wskazujemy w Code::Blocks. Nie zmieniamy systemowego ani użytkowego **PATH**.
 
 Pomoc: [dokumentacja Code::Blocks](https://www.codeblocks.org/docs/main_codeblocks_en3.html).
 
@@ -75,12 +77,12 @@ Jeżeli wykrywanie nie pomoże, przejdź do wyboru wariantu. Samo ustawienie naz
 | Wariant | Co zmieniasz? | Skąd pobierasz oprogramowanie? |
 |---|---|---|
 | 1. Code::Blocks z Microsoft Store | Zastępujesz dotychczasową instalację IDE | Microsoft Store |
-| 2. CodeBlocksMinGW | Zastępujesz IDE pakietem udostępnionym razem z MinGW | Portal Firmy |
-| 3. Osobny MinGW | Zachowujesz IDE i dodajesz kompilator | Portal Firmy |
+| 2. Code::Blocks z Portalu Firmy | Instalujesz IDE udostępnione przez szkołę | Portal Firmy — pakiet Code::Blocks |
+| 3. Osobny TDM-GCC | Zachowujesz IDE i dodajesz kompilator w swoim folderze | Link do instalatora TDM-GCC na GitHub |
 
-Wybierz wariant dostępny na szkolnym komputerze. **Nie wykonuj wszystkich po kolei.** Jeśli Code::Blocks nie jest jeszcze zainstalowany, pomiń odinstalowanie w wariancie 1 lub 2.
+Wybierz **jeden sposób instalacji IDE: 1 albo 2**. Jeśli masz już Code::Blocks i brakuje tylko kompilatora, przejdź od razu do wariantu 3, bez odinstalowywania IDE. Jeśli Code::Blocks nie jest jeszcze zainstalowany, pomiń odinstalowanie w wariancie 1 lub 2.
 
-Nazwy **CodeBlocksMinGW** i **MinGW** dotyczą pakietów udostępnionych przez naszą organizację. Ich dostępność i zawartość zależą od konfiguracji Portalu Firmy. Brak właściwego pakietu zgłoś prowadzącemu.
+Warianty 1 i 2 dotyczą instalacji **edytora Code::Blocks**. Jeśli po niej brakuje kompilatora, uzupełnij go według wariantu 3. **Nie szukaj osobnego MinGW ani TDM-GCC w Portalu Firmy — kompilator pobierz samodzielnie.**
 
 ## Zachowanie projektów i usunięcie starej instalacji
 
@@ -104,66 +106,69 @@ Po zapisaniu projektów i odinstalowaniu poprzedniej wersji:
 4. Otwórz zapisany `HelloWorld.cbp` przez **File → Open…** albo utwórz projekt według wcześniejszej instrukcji.
 5. Wybierz **Build → Rebuild**, a następnie **Build → Build and run**.
 
-**Nie zakładaj, że sama instalacja ze sklepu zapewni kompilator.** Jeżeli go brakuje, użyj **Auto-detect** lub doinstaluj MinGW zgodnie z wariantem 3.
+**Nie zakładaj, że sama instalacja ze sklepu zapewni kompilator.** Jeżeli go brakuje, pobierz TDM-GCC zgodnie z wariantem 3 i wskaż jego folder w ustawieniach Code::Blocks.
 
 Jeśli szkoła blokuje Microsoft Store, skorzystaj z wariantu dostępnego w Portalu Firmy lub zgłoś problem prowadzącemu.
 
-## Wariant 2: pakiet CodeBlocksMinGW
+## Wariant 2: Code::Blocks z Portalu Firmy
 
 1. Zapisz projekty i zamknij Code::Blocks.
 2. Odinstaluj dotychczasową wersję zgodnie z wcześniejszą instrukcją. Jeśli przechodzisz z wersji ze sklepu, usuń tę instalację, pozostawiając własne projekty.
-3. W **Portalu Firmy** wyszukaj dokładnie **CodeBlocksMinGW**.
+3. W **Portalu Firmy** znajdź udostępniony przez szkołę pakiet **Code::Blocks**.
 4. Kliknij **Zainstaluj** i poczekaj na zakończenie instalacji.
 5. Uruchom Code::Blocks. Jeśli pojawi się lista kompilatorów, wybierz wykryty **GNU GCC Compiler**.
 6. Otwórz `HelloWorld.cbp` lub utwórz projekt. Wybierz **Build → Rebuild**, potem **Build → Build and run**.
 
-Ten wariant zakłada szkolny pakiet Code::Blocks razem z MinGW. Jeśli program nie wykryje dołączonego kompilatora, użyj **Auto-detect** albo wskaż jego folder ręcznie według kolejnych slajdów.
+Portal Firmy służy w tym wariancie do instalacji **Code::Blocks**. Jeżeli środowisko nie ma działającego kompilatora, pozostaw je zainstalowane i pobierz osobno **TDM-GCC** zgodnie z następnym slajdem. Nie musisz ponownie instalować edytora tylko po to, aby dodać kompilator.
 
 Jeśli nie widzisz pakietu o tej nazwie, skontaktuj się z prowadzącym. Nie wybieraj przypadkowego programu o podobnej nazwie.
 
-## Wariant 3: osobna instalacja MinGW
+## Wariant 3: pobranie TDM-GCC do folderu użytkownika
 
-W tym wariancie **pozostawiasz zainstalowany Code::Blocks** i dodajesz kompilator.
+W tym wariancie **pozostawiasz zainstalowany Code::Blocks**. Osobny kompilator pobierasz samodzielnie, bez Portalu Firmy.
 
 1. Zamknij Code::Blocks.
-2. Otwórz **Portal Firmy** i wyszukaj pakiet **MinGW**.
-3. Kliknij **Zainstaluj** i poczekaj na zakończenie.
-4. Ponownie uruchom Code::Blocks.
-5. Otwórz **Settings → Compiler… → GNU GCC Compiler → Toolchain executables** i wybierz **Auto-detect**.
-6. Jeśli wykrywanie się uda, zatwierdź ustawienia i sprawdź projekt przez **Rebuild**, potem **Build and run**.
+2. Pobierz [instalator TDM-GCC 10.3.0 — tdm64-gcc-10.3.0-2.exe](https://github.com/jmeubank/tdm-gcc/releases/download/v10.3.0-tdm64-2/tdm64-gcc-10.3.0-2.exe).
+3. Uruchom pobrany plik zwykłym dwuklikiem, bez wybierania **Uruchom jako administrator**. W kreatorze wybierz **Create**. Jeśli pojawi się wybór edycji, wybierz **MinGW-w64/TDM64 (32-bit and 64-bit)**.
+4. Jako **Installation Directory** wskaż własny folder, np. `C:\Users\TWOJ-LOGIN\Downloads\TDM-GCC-64`. Zastąp `TWOJ-LOGIN` nazwą swojego folderu użytkownika. Nie wybieraj `Program Files`.
+5. Pozostaw składniki kompilatora C/C++, ale **odznacz Add to PATH**. Możesz też odznaczyć **Start Menu items**.
+6. Kliknij **Install** i poczekaj na rozpakowanie składników. Zapamiętaj wybrany katalog — wskażesz go w Code::Blocks na kolejnych slajdach.
 
-Jeśli wykrywanie się nie uda, znajdź rzeczywisty folder MinGW i wskaż go ręcznie. Te same kroki możesz zastosować do MinGW dołączonego do pakietu z wariantu 2.
+Plik `.exe` jest **instalatorem**, nie gotowym folderem kompilatora. Samo pobranie pliku nie wystarcza. Instalację wykonujemy w katalogu, do którego uczeń ma prawo zapisu; jeśli pojawi się blokada lub żądanie konta administratora, zgłoś to prowadzącemu.
+
+Źródło: [pobieranie TDM-GCC](https://jmeubank.github.io/tdm-gcc/download/).
 
 ## Lokalizacja plików kompilatora
 
-W Eksploratorze plików odszukaj instalację MinGW. Jej lokalizacja może być podana w opisie pakietu w Portalu Firmy.
+W Eksploratorze plików otwórz katalog wybrany podczas instalacji TDM-GCC. Folder **Pobrane** otworzysz, wpisując w pasku adresu `%USERPROFILE%\Downloads`.
 
-Przykładowe katalogi:
+Przy przykładowej lokalizacji powinny istnieć pliki:
 
 ```text
-C:\MinGW
-C:\mingw64
-C:\Program Files\CodeBlocks\MinGW
+C:\Users\TWOJ-LOGIN\Downloads\TDM-GCC-64\bin\gcc.exe
+C:\Users\TWOJ-LOGIN\Downloads\TDM-GCC-64\bin\g++.exe
 ```
 
-To **przykłady**, a nie ścieżki do bezwarunkowego przepisania. W swojej instalacji znajdź podkatalog **bin**, a w nim pliki **gcc.exe** i **g++.exe**.
+To przykładowe ścieżki — sprawdź swój rzeczywisty katalog. Zachowaj **cały folder TDM-GCC-64**, nie tylko pliki `.exe` z `bin`. Nie usuwaj go podczas porządkowania folderu Pobrane.
 
-Nazwy mogą zawierać przedrostek, np. `x86_64-w64-mingw32-g++.exe`. Zapisz rzeczywistą lokalizację i nazwy. Pusty katalog nazwany `MinGW` nie zastępuje instalacji kompilatora.
+Jeśli ścieżka profilu zawiera polskie znaki lub powoduje błędy narzędzi, wybierz z prowadzącym inny folder bez polskich znaków i spacji, do którego masz prawo zapisu. Nie zmieniaj nazwy profilu Windows.
 
-## Ręczne ustawienie katalogu MinGW
+## Wskazanie TDM-GCC w Code::Blocks
 
 1. Wybierz **Settings → Compiler…**.
 2. Ustaw **Selected compiler: GNU GCC Compiler**.
 3. Otwórz **Toolchain executables**.
-4. Obok **Compiler's installation directory** kliknij **…** i wskaż główny katalog swojej instalacji MinGW.
+4. Obok **Compiler's installation directory** kliknij **…** i wskaż główny katalog swojej instalacji TDM-GCC.
 
-| Znaleziony plik | Katalog do wpisania w ustawieniach |
-|---|---|
-| `C:\MinGW\bin\g++.exe` | `C:\MinGW` |
-| `C:\mingw64\bin\g++.exe` | `C:\mingw64` |
-| `C:\Program Files\CodeBlocks\MinGW\bin\g++.exe` | `C:\Program Files\CodeBlocks\MinGW` |
+Przykładowa wartość pola **Compiler's installation directory**:
+
+```text
+C:\Users\TWOJ-LOGIN\Downloads\TDM-GCC-64
+```
 
 **W tym polu wskazujesz folder nadrzędny wobec `bin`, a nie sam `bin` ani plik `g++.exe`.**
+
+**Nie zmieniaj zmiennej PATH w Windows.** Code::Blocks otrzymuje ścieżkę bezpośrednio w tych ustawieniach. Auto-detect może nie znaleźć instalacji w Twoim profilu — ręczny wybór folderu jest wtedy właściwym krokiem.
 
 Pomoc: [konfiguracja MinGW w Code::Blocks, rozdział 5.2.3](https://www.codeblocks.org/docs/main_codeblocks_en3.html).
 
@@ -179,7 +184,7 @@ W części **Program Files** sprawdź pola:
 
 Nazwy muszą zgadzać się z plikami w katalogu **bin** wybranej instalacji. Jeśli pliki mają przedrostki, wpisz pełne nazwy, np. `x86_64-w64-mingw32-g++.exe` dla kompilatora C++.
 
-W razie potrzeby użyj przycisku **…** obok odpowiedniego pola. Wybieraj narzędzia z tej samej instalacji MinGW, aby nie mieszać różnych zestawów.
+W razie potrzeby użyj przycisku **…** obok odpowiedniego pola. Wybieraj narzędzia z tej samej instalacji TDM-GCC, aby nie mieszać różnych zestawów.
 
 Zatwierdź ustawienia przyciskiem **OK**.
 
@@ -194,7 +199,7 @@ Zatwierdź ustawienia przyciskiem **OK**.
 
 Napis `Hello World!` w konsoli potwierdza działanie podstawowej konfiguracji.
 
-Przy poprawnym wskazaniu narzędzi w Code::Blocks do tego sprawdzenia nie musisz dodatkowo zmieniać systemowej zmiennej **Path**. Konfiguracja kompilatora w IDE i dostępność polecenia `g++` w PowerShell to odrębne ustawienia.
+**Nie dodajemy kompilatora do systemowego ani użytkowego PATH.** Sprawdzeniem konfiguracji jest działający **Build and run** w Code::Blocks. Samo `g++` wpisane w PowerShell może nie zostać rozpoznane — bez wpisu w PATH jest to oczekiwane i nie oznacza braku kompilatora.
 
 ## Rozpoznawanie błędów budowania
 
@@ -202,7 +207,7 @@ Otwórz **Build log** w dolnym panelu. Jeśli panel jest ukryty, włącz go prze
 
 | Objaw | Co sprawdzić? |
 |---|---|
-| Nie znaleziono kompilatora lub `g++.exe` | Czy MinGW jest zainstalowany? Czy katalog i nazwy narzędzi zgadzają się z plikami na dysku? |
+| Nie znaleziono kompilatora lub `g++.exe` | Czy instalator TDM-GCC zakończył rozpakowywanie? Czy wskazany folder zawiera `bin\g++.exe`? Czy nazwy narzędzi są poprawne? |
 | Błąd wskazuje linię w `main.cpp` | Porównaj kod z przykładem, zwłaszcza średniki, nawiasy i cudzysłowy. |
 | Pytanie o zbudowanie projektu | Wybierz **Build and run**, aby skompilować kod przed uruchomieniem. |
 | Nie można nadpisać pliku wykonywalnego | Zamknij poprzednie okno programu `HelloWorld`, potem ponów **Rebuild**. |
@@ -216,10 +221,10 @@ Jeśli nadal nie możesz zbudować i uruchomić programu, przekaż prowadzącemu
 
 - treść komunikatów z **Build log**;
 - zrzut ustawień **Toolchain executables**;
-- informację, który wariant instalacji wybrałeś i gdzie znajduje się MinGW.
+- informację, który wariant instalacji wybrałeś i gdzie znajduje się folder kompilatora.
 
 Zachowaj projekt. Nie usuwaj kodu ani nie zmieniaj przypadkowo kolejnych ustawień. Brak uprawnień, niedostępny pakiet lub blokadę uruchamiania zgłoś prowadzącemu albo administratorowi.
 
 Przed Lekcją 1 potrafisz znaleźć `HelloWorld.cbp`, otworzyć `main.cpp`, zapisać zmianę i uruchomić program przez **Build and run**.
 
-Dokumentacja: [Code::Blocks](https://www.codeblocks.org/docs/main_codeblocks_en3.html), [Portal Firmy](https://learn.microsoft.com/en-us/intune/user-help/apps/install-apps-windows).
+Dokumentacja: [Code::Blocks](https://www.codeblocks.org/docs/main_codeblocks_en3.html), [TDM-GCC](https://jmeubank.github.io/tdm-gcc/download/).

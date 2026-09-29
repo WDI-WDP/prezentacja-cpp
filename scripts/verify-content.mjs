@@ -30,6 +30,7 @@ function h2Bodies(source) {
 }
 
 const organizationLessons = course.lessons.filter(lesson => lesson.kind === "organization");
+const setupLessons = course.lessons.filter(lesson => lesson.kind === "setup");
 const contentLessons = course.lessons.filter(lesson => lesson.kind === "lesson");
 const examinations = course.lessons.filter(lesson => lesson.kind === "exam");
 
@@ -50,8 +51,43 @@ else {
     }
 }
 
-if (course.lessons.length !== 31) {
+if (course.lessons.length !== 33) {
     failures.push(`Nieprawidłowa liczba pozycji w prezentacji: ${course.lessons.length}.`);
+}
+
+if (setupLessons.length !== 2 || course.meta.setupCount !== 2
+    || setupLessons.map(lesson => lesson.route).join(",") !== "konfiguracja,codeblocks") {
+    failures.push("Brakuje dwóch bloków przygotowania w prawidłowej kolejności.");
+}
+
+for (const setup of setupLessons) {
+    const source = readFileSync(join(repositoryDirectory, setup.sourceFile), "utf8").replace(/\r\n/g, "\n");
+    const headings = [...source.matchAll(/^##\s+(.+)$/gm)];
+    const generated = setup.sections.map(section => section.markdown).join("\n");
+    if (normalize(h2Bodies(source)) !== normalize(generated)
+        || headings.length !== setup.sections.length
+        || headings.some((heading, i) => heading[1].trim() !== setup.sections[i]?.title)) {
+        failures.push(`Niezgodna treść przygotowania: ${setup.sourceFile}`);
+    }
+}
+
+if (course.meta.setupSectionCount !== setupLessons.reduce((sum, lesson) => sum + lesson.sections.length, 0)) {
+    failures.push("Nieprawidłowa liczba slajdów przygotowania.");
+}
+
+const compilerText = setupLessons.find(lesson => lesson.route === "codeblocks")?.sections
+    .map(section => section.markdown).join("\n") ?? "";
+for (const required of [
+    "https://github.com/jmeubank/tdm-gcc/releases/download/v10.3.0-tdm64-2/tdm64-gcc-10.3.0-2.exe",
+    "C:\\Users\\TWOJ-LOGIN\\Downloads\\TDM-GCC-64",
+    "odznacz Add to PATH",
+    "Compiler's installation directory",
+    "Nie zmieniaj zmiennej PATH w Windows"
+]) {
+    if (!compilerText.includes(required)) failures.push(`Brakuje instrukcji kompilatora: ${required}`);
+}
+if (compilerText.includes("wyszukaj pakiet **MinGW**") || compilerText.includes("CodeBlocksMinGW")) {
+    failures.push("Instrukcja nadal odsyła po kompilator do Portalu Firmy.");
 }
 
 for (const lesson of contentLessons) {
@@ -117,6 +153,7 @@ if (course.meta.email !== "jakub.gratkiewicz@wat.edu.pl") {
 
 console.log(`Pozycje w prezentacji: ${course.lessons.length}`);
 console.log(`Lekcje organizacyjne: ${organizationLessons.length}`);
+console.log(`Bloki przygotowania: ${setupLessons.length}`);
 console.log(`Elementy Lekcji 0: ${organizationLessons[0]?.sections.length ?? 0}`);
 console.log(`Lekcje dydaktyczne: ${contentLessons.length}`);
 console.log(`Slajdy sprawdzianowe: ${examinations.length}`);
